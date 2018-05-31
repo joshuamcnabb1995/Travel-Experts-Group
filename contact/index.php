@@ -4,7 +4,7 @@
         <?php include('../inc/css.php'); ?>
     </head>
     <body>
-      <div class="container" style="margin-top:100px;'>'"
+      <div class="container">
       <?php include('../inc/navigation.php'); ?>
 
       <?php include('../inc/javascript.php'); ?>
