@@ -1,10 +1,14 @@
 <html>
     <head>
         <title>Contact Form Tutorial by Bootstrapious.com</title>
-        <link href='custom.css' rel='stylesheet' type='text/css'>
+        <?php include('../inc/css.php'); ?>
     </head>
     <body>
 
+      <?php include('../inc/navigation.php'); ?>
+
+      <?php include('../inc/javascript.php'); ?>
+      <?php include('../inc/footer.php'); ?>
 
                     <h1>Contact form</h1>
 
