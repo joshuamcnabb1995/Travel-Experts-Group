@@ -4,9 +4,8 @@
         <?php include('../inc/css.php'); ?>
     </head>
     <body>
-      <div class="container" style="margin-top=100px;">
       <?php include('../inc/navigation.php'); ?>
-
+      <div class="container" style="margin-top=100px;">
       <?php include('../inc/javascript.php'); ?>
       <?php include('../inc/footer.php'); ?>
 
