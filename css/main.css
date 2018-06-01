@@ -1,0 +1,15 @@
+html { position: relative; min-height: 100%; }
+body { margin-bottom: 60px; }
+.left { float: left; }
+.right { float: right !important; }
+.carousel-control-prev-icon, .carousel-control-next-icon { display: none; }
+.jumbotron { padding: 1rem 0.75rem 0.5rem 0.75rem; }
+.album { padding-top: 0 !important; }
+.footer {
+    background: #e9ecef;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+}
