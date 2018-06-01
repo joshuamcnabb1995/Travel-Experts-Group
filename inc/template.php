@@ -1,4 +1,11 @@
-<?php include('../inc/global.php'); ?>
+<?php
+    /*
+    Update this number with the number of your page
+    (home = 1, packages = 2, contact = 3, register = 4, login = 5)
+    */
+    $page = 0;
+    include('../inc/global.php');
+?>
 <!DOCTYPE html>
 <html>
     <head>
