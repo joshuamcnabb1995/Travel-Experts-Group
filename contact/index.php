@@ -29,7 +29,7 @@
                     <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
 
                     <label for="form_message">Message *</label>
-                    <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                    <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please,leave us a message."></textarea</b>
                     <div class="help-block with-errors"></div>
 
                 <input type="submit" class="btn btn-success btn-send" value="Send message">
