@@ -3,7 +3,8 @@
         <title>Contact Form Tutorial by Bootstrapious.com</title>
         <?php include('../inc/css.php'); ?>
         <style>
-        .col-8{ background: red; }
+        .col-8{ background: purple; }
+        .col-4{ background-color: light blue;}
         </style>
     </head>
     <body>
