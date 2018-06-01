@@ -30,11 +30,11 @@
 
                     <label for="form_message">Message *</label>
                     <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                    <div class="help-block with-errors"></div>
 
+                <input type="submit" class="btn btn-success btn-send" value="Send message">
 
-
-</form>
-
-</div>
+                <p class="text-muted"><strong>*</strong> These fields are required.</p>
+                </form>
     </body>
 </html>
