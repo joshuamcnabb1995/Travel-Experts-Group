@@ -5,8 +5,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="/travel-experts-group/packages">Vacation Packages</a></li>
+            <li class="nav-item<?php if($page == 1) echo ' active'; ?>"><a class="nav-link" href="<?php if(!$page == 1) echo '#'; else echo '/travel-experts-group'; ?>">Home<?php if($page == 1) echo ' <span class="sr-only">(current)</span>'; ?></a></li>
+            <li class="nav-item<?php if($page == 2) echo ' active'; ?>"><a class="nav-link" href="<?php if(!$page == 2) echo '#'; else echo '/travel-experts-group/packages'; ?>">Vacation Packages<?php if($page == 2) echo ' <span class="sr-only">(current)</span>'; ?></a></li>
             <li class="nav-item"><a class="nav-link" href="/travel-experts-group/contact/">Contact Us</a></li>
         </ul>
     </div>

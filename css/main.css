@@ -1,3 +1,4 @@
+/* Joshua */
 html { position: relative; min-height: 100%; }
 body { margin-bottom: 60px; }
 .left { float: left; }
@@ -5,6 +6,15 @@ body { margin-bottom: 60px; }
 .carousel-control-prev-icon, .carousel-control-next-icon { display: none; }
 .jumbotron { padding: 1rem 0.75rem 0.5rem 0.75rem; }
 .album { padding-top: 0 !important; }
+
+#packagesContainer { margin: 80px auto; }
+#availablePackages { margin-bottom: 20px; }
+#availablePackages .album { margin-top: 10px; padding-bottom: 0 !important; }
+#availablePackages .pagination {
+    float: right;
+    margin-bottom: 0; /* Remove the spacing in the footer of the available packages card */
+}
+
 .footer {
     background: #e9ecef;
     position: absolute;
@@ -13,3 +23,4 @@ body { margin-bottom: 60px; }
     height: 60px;
     line-height: 60px;
 }
+/* Joshua */

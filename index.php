@@ -1,3 +1,8 @@
+<?php
+    $page = 1;
+
+    include('inc/global.php');
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +32,7 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="img/packages/package1.jpg" data-holder-rendered="true">
                             <div class="card-body">
-                                <p class="card-text">Cruise the Caribbean and celebrate the new year.</p>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
@@ -42,7 +47,7 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="img/packages/package2.jpg" data-holder-rendered="true">
                             <div class="card-body">
-                                <p class="card-text">Eight day all-inclusive Hawaiian vacation.</p>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
@@ -57,7 +62,7 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="img/packages/package3.jpg" data-holder-rendered="true">
                             <div class="card-body">
-                                <p class="card-text">Airfaire, Hotel and Eco Tour.</p>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
@@ -74,7 +79,7 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="img/packages/package1.jpg" data-holder-rendered="true">
                             <div class="card-body">
-                                <p class="card-text">Cruise the Caribbean and celebrate the new year.</p>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
@@ -89,7 +94,7 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="img/packages/package2.jpg" data-holder-rendered="true">
                             <div class="card-body">
-                                <p class="card-text">Eight day all-inclusive Hawaiian vacation.</p>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
@@ -104,7 +109,7 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="img/packages/package3.jpg" data-holder-rendered="true">
                             <div class="card-body">
-                                <p class="card-text">Airfaire, Hotel and Eco Tour.</p>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
