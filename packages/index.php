@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Travel Experts - YOUR PAGE TITLE</title>
+        <title>Travel Experts - Available Packages</title>
         <?php include('../inc/css.php'); ?>
     </head>
 
@@ -14,7 +14,7 @@
 
         <div id="packagesContainer" class="container">
             <div id="availablePackages" class="card">
-                <div class="card-header">Available Packages</div>
+                <div class="card-header"><h5>Available Packages</h5></div>
                 <div class="album py-5">
                     <div class="container">
                         <div class="row">
