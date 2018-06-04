@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Travel Experts - YOUR PAGE TITLE</title>
+        <title>Travel Experts - Available Packages</title>
         <?php include('../inc/css.php'); ?>
     </head>
 
@@ -14,13 +14,13 @@
 
         <div id="packagesContainer" class="container">
             <div id="availablePackages" class="card">
-                <div class="card-header">Available Packages</div>
+                <div class="card-header"><h5>Available Packages</h5></div>
                 <div class="album py-5">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
-                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>
                                     <div class="card-body">
                                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -35,7 +35,7 @@
 
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
-                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package2.jpg" data-holder-rendered="true">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package2.jpg" data-holder-rendered="true"></a>
                                     <div class="card-body">
                                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -50,7 +50,7 @@
 
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
-                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package3.jpg" data-holder-rendered="true">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package3.jpg" data-holder-rendered="true"></a>
                                     <div class="card-body">
                                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
-                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>
                                     <div class="card-body">
                                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -82,7 +82,7 @@
 
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
-                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package2.jpg" data-holder-rendered="true">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package2.jpg" data-holder-rendered="true"></a>
                                     <div class="card-body">
                                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                         <div class="d-flex justify-content-between align-items-center">
@@ -97,7 +97,7 @@
 
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
-                                    <img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package3.jpg" data-holder-rendered="true">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package3.jpg" data-holder-rendered="true"></a>
                                     <div class="card-body">
                                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
                                         <div class="d-flex justify-content-between align-items-center">

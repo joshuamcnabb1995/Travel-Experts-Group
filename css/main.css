@@ -1,19 +1,27 @@
 /* Joshua */
 html { position: relative; min-height: 100%; }
 body { margin-bottom: 60px; }
+#divider {
+    background: #fff;
+    height: 40px;
+    border: none;
+    box-shadow: none;
+}
 .left { float: left; }
 .right { float: right !important; }
 .carousel-control-prev-icon, .carousel-control-next-icon { display: none; }
 .jumbotron { padding: 1rem 0.75rem 0.5rem 0.75rem; }
 .album { padding-top: 0 !important; }
 
-#packagesContainer { margin: 80px auto; }
+#packagesContainer, #package { margin: 80px auto; }
 #availablePackages { margin-bottom: 20px; }
 #availablePackages .album { margin-top: 10px; padding-bottom: 0 !important; }
 #availablePackages .pagination {
     float: right;
     margin-bottom: 0; /* Remove the spacing in the footer of the available packages card */
 }
+
+#package img { height: 375px; }
 
 .footer {
     background: #e9ecef;

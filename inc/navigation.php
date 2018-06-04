@@ -10,4 +10,8 @@
             <li class="nav-item"><a class="nav-link" href="/travel-experts-group/contact/">Contact Us</a></li>
         </ul>
     </div>
+    <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="/travel-experts-group/login">Login</a></li>
+        <li class="nav-item"><a class="nav-link" href="/travel-experts-group/register">Register</a></li>
+    </ul>
 </nav>
