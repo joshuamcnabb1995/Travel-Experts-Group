@@ -18,6 +18,30 @@
                 <div class="album py-5">
                     <div class="container">
                         <div class="row">
+                        <?php
+                            $currentDate = date('Y-m-d h:i:s');
+                            $packages = $database->query("SELECT * FROM packages WHERE PkgEndDate > '$currentDate' ORDER BY PackageId");
+
+                            foreach($packages as $result) {
+                            ?>
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>
+                                    <div class="card-body">
+                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
+                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
+                            }
+                        ?>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="card mb-4 box-shadow">
                                     <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>

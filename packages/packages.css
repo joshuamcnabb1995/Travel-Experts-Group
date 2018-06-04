@@ -131,7 +131,6 @@ img {
     margin-left: 20px; }
 
 .add-to-cart, .like {
-  //background: #ff9f1a;
   padding: 0.5em 1.5em;
   border: none;
   text-transform: UPPERCASE;
@@ -139,9 +138,6 @@ img {
   color: #fff;
   -webkit-transition: background .3s ease;
           transition: background .3s ease; }
-  .add-to-cart:hover, .like:hover {
-    background: #b36800;
-    color: #fff; }
 
 .not-available {
   text-align: center;
