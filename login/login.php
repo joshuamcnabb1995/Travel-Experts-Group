@@ -77,6 +77,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Close connection
     mysqli_close($link);
 }
+
+$page = 5;
 ?>
 
 <!DOCTYPE html>
@@ -84,15 +86,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+      <?php include('../inc/css.php'); ?>
     <style type="text/css">
         body{ font: 14px sans-serif; }
         .wrapper{ width: 350px; padding: 20px; }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h2>Login</h2>
+
+  <?php include('../inc/navigation.php'); ?>
+
+  <div class="container" style="margin-top:80px; margin-bottom:80px;">
+    <div class="card">
+      <div class="card-header">
+        <h5>Login</h5>
+      </div>
+      <div class="card-body">
         <p>Please fill in your credentials to login.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
@@ -110,6 +119,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <p>Don't have an account? <a href="userregister.php">Sign up now</a>.</p>
         </form>
+      </div>
     </div>
+  <?php include('../inc/javascript.php'); ?>
+  <?php include('../inc/footer.php'); ?>
 </body>
 </html>
