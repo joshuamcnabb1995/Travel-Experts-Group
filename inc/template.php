@@ -15,7 +15,6 @@
 
     <body>
         <?php include('../inc/navigation.php'); ?>
-        <?php include('../inc/header.php'); ?>
 
         <div class="container">
             <!-- Your HTML here -->
