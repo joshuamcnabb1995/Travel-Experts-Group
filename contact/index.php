@@ -13,7 +13,6 @@
       <?php include('../inc/javascript.php'); ?>
       <?php include('../inc/footer.php'); ?>
                 <div class="container">
-                <div class="row">
                 <div class="col-5">
                 <h1>Contact form</h1>
 
@@ -57,9 +56,6 @@
                             echo "<br><h4>Contact:</h4></br><h5>".$row["AgncyCity"]."</h5></br>Address: ".$row["AgncyAddress"]."</br>Postalcode: ".$row["AgncyPostal"]."</br>Phone: ".$row["AgncyPhone"]."</br>Fax: ".$row["AgncyFax"]."</br>";
                         }
                     ?>
-
-
-                </div>
 
               </div>
 
