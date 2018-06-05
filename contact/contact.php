@@ -1,6 +1,6 @@
 <?php
-if ($_POST["email"]<>'') {
-    $ToEmail = "sara_n_h@yahoo.com";
+//if ($_POST['email'] != '') {
+   // $ToEmail = 'sara_n_h@yahoo.com';
     $EmailSubject = 'Site contact form';
     $mailheader = "From: ".$_POST["email"]."\r\n";
     $mailheader .= "Reply-To: ".$_POST["email"]."\r\n";
@@ -14,5 +14,6 @@ if ($_POST["email"]<>'') {
 ?>
 Your message was sent
 <?php
-} else {
+//} //else {
+//}
 ?>
