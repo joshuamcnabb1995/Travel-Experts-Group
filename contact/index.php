@@ -54,7 +54,7 @@
                         $sql = $database->query("SELECT AgencyId, AgncyAddress, AgncyProv, AgncyCity, AgncyPostal, AgncyCountry, AgncyPhone,AgncyFax  FROM agencies");
 
                         foreach($sql as $row) {
-                            echo "<br><h4>Contact:</h4></br><h5>".$row["AgncyCity"]."</h5></br>Address: ".$row["AgncyAddress"]."</br>Postalcode: ".$row["AgncyPostal"]."</br>Phone: ".$row["AgncyPhone"]."</br>Fax: ".$row["AgncyFax"]."</br>E-mail:info@travelexpert.com</br> ";
+                            echo "<br><h4>Contact:</h4></br><h5>".$row["AgncyCity"]."</h5></br>Address: ".$row["AgncyAddress"]."</br>Postalcode: ".$row["AgncyPostal"]."</br>Phone: ".$row["AgncyPhone"]."</br>Fax: ".$row["AgncyFax"]."</br>E-mail: info@travelexpert.com</br> ";
                         }
                     ?>
 
