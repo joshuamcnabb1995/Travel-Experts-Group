@@ -1,5 +1,6 @@
 <?php
     include('database.php');
+    include('functions.php');
 
     /* Disable cache temporarily */
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");

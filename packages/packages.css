@@ -9,7 +9,7 @@
 #dates .col:hover {
     color: #fff;
     background: #333;
-    cursor: pointer;
+    cursor: context-menu;
 }
 #dates .col:first-of-type {
     border-top-right-radius: 0;
@@ -20,6 +20,7 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+#dates .expiring { color: red; font-weight: bold; }
 
 img {
   max-width: 100%; }
@@ -104,6 +105,8 @@ img {
 
 .price s {
     color: #888;
+    font-weight: normal;
+    font-style: italic;
 }
 .checked { color: #ff9f1a; }
 
@@ -172,8 +175,8 @@ img {
 @keyframes opacity {
   0% {
     opacity: 0;
-    -webkit-transform: scale(2);
-            transform: scale(2); }
+    -webkit-transform: scale(3);
+            transform: scale(3); }
   100% {
     opacity: 1;
     -webkit-transform: scale(1);
