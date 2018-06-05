@@ -4,9 +4,11 @@
    Description:  Create the form and PHP script to handle package bookings.
 -->
 
-<!-- Does this page need page set?  Check value -->
+<!-- Set the $page variable to be that of the packages page.  The orders page itself
+does not appear in the navigation menu as the user should not navigate directly to
+the orders page -->
 <?php
-    $page = 6;
+    $page = 2;
     include('../../inc/global.php');
 ?>
 
@@ -28,6 +30,39 @@
   plus a progra-generating booking number.  The customer must add the number of travellers. -->
 
   <div class="container" style="margin-top:80px; margin-bottom:80px;">
+
+    <?php
+      # This section of PHP code retrieves and displays the package details for the
+      # customer's order
+      include('../../inc/database.php');
+
+      $currentDate = date('Y-m-d h:i:s');
+      echo "<b>Booking Date: </b>" . $currentDate . "<br>";
+
+      # The packageId and the number of travellers have been passed from the packages
+      # page in $_POST.  Use packageId to obtain the package details from the database
+      # and use the number of travellers to calculate the total cost.
+
+      # CHANGE WHEN WORKING
+      #$pkgId = $_POST["packageId"];
+      $pkgId = 1;
+      $numTravellers = 2;
+
+      $sql = "SELECT * FROM packages where PackageId = " . "'" . $pkgId . "'";
+      $result = $database->query($sql);
+
+      # Only one row will be returned
+      $row = $result->fetch();
+      echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
+      echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
+      echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
+      echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
+      printf("<b>Cost per Person:  $%9.2f</b><br><br>", $row["PkgBasePrice"]);
+
+      # DO I NEED TO ADD COMMISSION TO BASE PRICE??
+      printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $numTravellers);
+    ?>
+
     <div class="card">
       <div class="card-header">
         <h5>Package Booking</h5>
@@ -36,7 +71,7 @@
         <p class="card-text"><h6>Please complete this form to make a booking</h6></p>
         <br>
 
-        <form id="customerform" action="index.php#bottomOfPage" method="post">
+        <form id="customerform" action="processorder.php" method="post">
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="fn">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
