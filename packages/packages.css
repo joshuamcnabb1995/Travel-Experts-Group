@@ -23,6 +23,8 @@
 #dates .expiring { color: red; font-weight: bold; }
 #dates .expiring:hover { background: #fff; color: red !important; }
 
+#quantity { margin-top: 5px; margin-bottom: 10px; }
+
 /* https://bootsnipp.com/snippets/featured/ecommerce-product-detail */
 img { max-width: 100%; }
 
