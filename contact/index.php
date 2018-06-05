@@ -3,8 +3,8 @@
         <title>Contact Form Tutorial by Bootstrapious.com</title>
         <?php include('../inc/css.php'); ?>
         <style>
-        .col-8{ background: rgb(29, 198, 193); }
-        .col-4{ background-color: rgb(129, 212, 165);}
+        .col-5{ background:rgb(208, 242, 233); }
+        .col{ background-color: rgb(129, 212, 165);}
         </style>
     </head>
     <body>
@@ -51,15 +51,16 @@
                     <?php
                         include('../inc/database.php');
 
-  			                $sql = $database->query("SELECT AgencyId, AgncyAddress, AgncyProv, AgncyCity, AgncyPostal, AgncyCountry, AgncyPhone,AgncyFax  FROM agencies");
+                        $sql = $database->query("SELECT AgencyId, AgncyAddress, AgncyProv, AgncyCity, AgncyPostal, AgncyCountry, AgncyPhone,AgncyFax  FROM agencies");
 
-					              foreach($sql as $row) {
-							              echo "<br><h4>Contact:</h4></br><h5>".$row["AgncyCity"]."</h5></br>Address: ".$row["AgncyAddress"]."</br>Postalcode: ".$row["AgncyPostal"]."</br>Phone: ".$row["AgncyPhone"]."</br>Fax: ".$row["AgncyFax"]."</br>";
-						            }
+                        foreach($sql as $row) {
+                            echo "<br><h4>Contact:</h4></br><h5>".$row["AgncyCity"]."</h5></br>Address: ".$row["AgncyAddress"]."</br>Postalcode: ".$row["AgncyPostal"]."</br>Phone: ".$row["AgncyPhone"]."</br>Fax: ".$row["AgncyFax"]."</br>";
+                        }
                     ?>
 
 
                 </div>
+
               </div>
         </body>
 </html>
