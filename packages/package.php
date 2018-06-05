@@ -17,6 +17,7 @@
         <?php include('../inc/navigation.php'); ?>
 
         <div class="container">
+            <?php if(packageEndingSoon($package['PkgEndDate'])) echo '<div id="packageWarning" class="notice notice-warning"><strong>Notice:</strong>&nbsp; Package ending soon!</div>'; ?>
             <div id="package" class="card">
 			<div class="container-fliud">
 				<div class="wrapper row">
@@ -43,8 +44,8 @@
                             <div class="col"><i class="fa fa-calendar"></i> Started: <?php echo date('Y-m-d', strtotime($package['PkgStartDate'])); ?></div>
                             <div class="col<?php if(packageEndingSoon($package['PkgEndDate'])) echo ' expiring'; ?>"><i class="fa fa-calendar"></i> Ends: <?php if(packageEndingSoon($package['PkgEndDate'])) echo 'Tomorrow at ' . date('g:ia', strtotime($package['PkgEndDate'])); else echo date('Y-m-d', strtotime($package['PkgEndDate'])); ?></div>
                         </div>
-                        <h5 class="price">current price: <s>$5200</s> <span>$4800</span></h5>
-						<div class="action"><button class="add-to-cart btn btn-success" type="button"><i class="fa fa-cart-plus"></i>&nbsp; Book Destination</button></div>
+                        <h5 class="price">current price: <s>$5200.00</s> <span>$<?php echo number_format($package['PkgBasePrice'], 2, '.', ''); ?></span></h5>
+						<div class="action"><button class="add-to-cart btn btn-success" type="button" onclick="window.location.href='book.php?id=<?php echo $package['PackageId']; ?>'"><i class="fa fa-cart-plus"></i>&nbsp; Book Destination</button></div>
 					</div>
 				</div>
 			</div>

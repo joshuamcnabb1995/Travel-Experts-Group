@@ -13,7 +13,8 @@ body { /*margin-bottom: 60px; Height of the footer */ }
 .jumbotron { padding: 1rem 0.75rem 0.5rem 0.75rem; }
 .album { padding-top: 0 !important; }
 
-#packagesContainer, #package { margin: 80px auto; }
+#packagesContainer, #package { margin: 80px auto 25px auto; }
+#packageWarning { margin-top: 80px; margin-bottom: -55px; }
 #availablePackages { margin-bottom: 20px; }
 #availablePackages .album { margin-top: 10px; padding-bottom: 0 !important; }
 #availablePackages .pagination {
@@ -98,6 +99,54 @@ section .section-title{
 	transition: .5s all ease;
 }
 /* https://bootsnipp.com/snippets/featured/services-section-using-bootstrap-4 */
+
+/* https://bootsnipp.com/snippets/featured/simple-card-alerts */
+.notice {
+    padding: 10px;
+    background-color: #fafafa;
+    border-left: 6px solid #7f7f84;
+    border-top: 1px solid #bbb !important;
+    border-right: 1px solid #bbb !important;
+    border-bottom: 1px solid #bbb !important;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
+    -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
+    box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
+    border-radius: 2px;
+}
+.notice-sm {
+    padding: 10px;
+    font-size: 80%;
+}
+.notice-lg {
+    padding: 35px;
+    font-size: large;
+}
+.notice-success {
+    border-color: #80D651;
+}
+.notice-success>strong {
+    color: #80D651;
+}
+.notice-info {
+    border-color: #45ABCD;
+}
+.notice-info>strong {
+    color: #45ABCD;
+}
+.notice-warning {
+    border-color: #FEAF20;
+}
+.notice-warning>strong {
+    color: #FEAF20;
+}
+.notice-danger {
+    border-color: #d73814;
+}
+.notice-danger>strong {
+    color: #d73814;
+}
+/* https://bootsnipp.com/snippets/featured/simple-card-alerts */
 
 /*.footer {
     background: #e9ecef;
