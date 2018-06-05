@@ -1,127 +1,42 @@
 <!--
-  Author: Safiq Momin
-  Date of creation: 06-01-2018
-  description: The file contains html code for registration and php code to verify different conditions of the fields relating the database
+   Author:  Corinne Mullan
+   Date:  06-04-2018
+   Description:  Create the form and PHP script to handle package bookings.
 -->
 
-<!--
-   Modified by:  Corinne Mullan
-   Date:  06-02-2018
-   Description:  Modified client-side validation to use jQuery-validation.
-                 Added input field hints using popovers.
-                 Modified formatting to use a Bootstrap "card" layout.
--->
-
+<!-- Does this page need page set?  Check value -->
 <?php
-    $page = 4;
-    include('../inc/global.php');
-?>
-
-<?php
-// Include config file
-require_once '../login/config.php';
-// Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate username
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
-    } else{
-        // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
-                } else{
-                    $username = trim($_POST["username"]);
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-        // Closing the statement
-        mysqli_stmt_close($stmt);
-    }
-    // Validating the password
-    if(empty(trim($_POST['password']))){
-        $password_err = "Please enter a password.";
-    } elseif(strlen(trim($_POST['password'])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
-    } else{
-        $password = trim($_POST['password']);
-    }
-    // Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = 'Please confirm password.';
-    } else{
-        $confirm_password = trim($_POST['confirm_password']);
-        if($password != $confirm_password){
-            $confirm_password_err = 'Password did not match.';
-        }
-    }
-    // Checking input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            // Attempting to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Redirecting to login page
-                header("location: login.php");
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
-        // Closing statement
-        mysqli_stmt_close($stmt);
-    }
-    // Closing connection
-    mysqli_close($link);
-}
+    $page = 6;
+    include('../../inc/global.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <?php include('../inc/css.php'); ?>
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
-    <link rel="stylesheet" href="register.css" />
+    <title>Order</title>
+    <?php include('../../inc/css.php'); ?>
+    <link rel="stylesheet" href="order.css" />
 </head>
 
 <body>
 
-  <?php include('../inc/navigation.php'); ?>
+  <?php include('../../inc/navigation.php'); ?>
+
+  <!-- Need to populate the form based on the customer data (if the customer is logged in)
+  and with the selected package.  Need to add field in form to show the selected package
+  plus a progra-generating booking number.  The customer must add the number of travellers. -->
 
   <div class="container" style="margin-top:80px; margin-bottom:80px;">
     <div class="card">
       <div class="card-header">
-        <h5>Sign Up</h5>
+        <h5>Package Booking</h5>
       </div>
       <div class="card-body">
-        <p class="card-text"><h6>Please fill in this form to create an account</h6></p>
+        <p class="card-text"><h6>Please complete this form to make a booking</h6></p>
         <br>
 
-        <form id="customerform" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <form id="customerform" action="index.php#bottomOfPage" method="post">
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="fn">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
@@ -186,32 +101,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
           </div>
 
-          <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-              <label>Username<sup>*</sup></label>
-              <input type="text" name="username"class="form-control" value="<?php echo $username; ?>" required="required">
-              <span class="help-block"><?php echo $username_err; ?></span>
-          </div>
-          <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-              <label>Password<sup>*</sup></label>
-              <input type="password" name="password" class="form-control" value="<?php echo $password; ?>" required="required">
-              <span class="help-block"><?php echo $password_err; ?></span>
-            </div>
-          <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-              <label>Confirm Password<sup>*</sup></label>
-              <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>" required="required">
-              <span class="help-block"><?php echo $confirm_password_err; ?></span>
-          </div>
           <div class="form-group">
-              <input type="submit" class="btn btn-primary" value="Submit">
-              <input type="reset" class="btn btn-default" value="Reset">
+              <input type="submit" name="booktrip" class="btn btn-primary" value="Book Trip">
+              <input type="button" class="btn btn-default" value="Cancel" onclick="window.location.href='../index.php'">
             </div>
+
         </form>
-      <p>Already have an account? <a href="../login/index.php">Login here</a>.</p>
+
+      <?php
+            include('../../inc/database.php');
+
+            if (isset($_POST["booktrip"])) {
+
+              # Add a record in the customer table for the customer, if it does not already exists
+
+              # Add a record to the booking table
+
+              # Print a message to indicate a successful or failed booking
+              echo "<br><p>hello</p><br>";
+            }
+      ?>
+
+      <!-- Only show the following if user is not logged in -->
+      <p>Already have an account? <a href="../../login/index.php">Login here</a>.</p>
     </div>
   </div>
 </div>
 
-<?php include('../inc/javascript.php'); ?>
+<?php include('../../inc/javascript.php'); ?>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 
 <script>
@@ -285,7 +202,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
   </script>
 
-  <?php include('../inc/footer.php'); ?>
+  <!-- Mark the bottom of the page so that, when the page is reloaded after a submit, it reloads with the
+  		bottom of the page and buttons showing.  Refer to action="" for the form above. -->
+  <a name="bottomOfPage"></a>
+
+  <?php include('../../inc/footer.php'); ?>
 
 </body>
 </html>
