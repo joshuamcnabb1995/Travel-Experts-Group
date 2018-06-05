@@ -13,6 +13,7 @@
       <?php include('../inc/javascript.php'); ?>
       <?php include('../inc/footer.php'); ?>
                 <div class="container">
+                <div class="row">
                 <div class="col-5">
                 <h1>Contact form</h1>
 
@@ -58,6 +59,7 @@
                     ?>
 
               </div>
+            </div>
 
         </body>
 </html>
