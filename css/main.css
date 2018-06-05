@@ -113,6 +113,7 @@ section .section-title{
     -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
     box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
     border-radius: 2px;
+    font-weight: bold !important;
 }
 .notice-sm {
     padding: 10px;
