@@ -12,8 +12,10 @@
       <div class="container" style="margin-top:100px;">
       <?php include('../inc/javascript.php'); ?>
       <?php include('../inc/footer.php'); ?>
-
-                    <h1>Contact form</h1>
+                <div class="container">
+                <div class="row">
+                <div class="col-5">
+                <h1>Contact form</h1>
 
                     <p class="lead">Please send us a message and one of our agents will get in touch with you as soon as possible.</p>
 
@@ -21,7 +23,7 @@
                     <form id="contact-form" method="post" action="contact.php" role="form">
 
                     <label for="form_name">Firstname *</label>
-                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+                    <input id="form_name" type="text" name="fname" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
 
                     <label for="form_lastname">Lastname *</label>
                     <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
@@ -40,28 +42,23 @@
 
                 <p class="text-muted"><strong>*</strong> These fields are required.</p></br>
                 </form>
-                <div class="row">
-                  <div class="col-8"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d321303.3268281848!2d-114.35433369398585!3d51.01278199569303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170039f843fd5%3A0x266d3bb1b652b63a!2sCalgary%2C+AB!5e0!3m2!1sen!2sca!4v1527883694526" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></div>
-                  <div class="col-4">
-                    <pre>
-                      Contact:
-                      travelexpert.Ca
-                      Canada Toll-free number: 1.888.289.6660
-                      Worldwide Contact: +1.403.289.6656
-                      Email: fly@travelexpert.ca
+              </div>
 
-                      Locations
 
-                      Calgary
-                      CANADA WIDE CALL CENTRE
-                      Unit B, 916 16th Ave. NW
-                      Calgary, Alberta – T2M 0K3
+                  <div class="col"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d321303.3268281848!2d-114.35433369398585!3d51.01278199569303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170039f843fd5%3A0x266d3bb1b652b63a!2sCalgary%2C+AB!5e0!3m2!1sen!2sca!4v1527883694526" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></div>
+                  <div class="col">
 
-                      Hours (Mtn Std time):
-                      Mon to Fri : 8am – 6:30pm
-                      Sat : 9am – 4pm
-                      Sun : 11am – 4pm
-                </pre>
+                    <?php
+                        include('../inc/database.php');
+
+  			                $sql = $database->query("SELECT AgencyId, AgncyAddress, AgncyProv, AgncyCity, AgncyPostal, AgncyCountry, AgncyPhone,AgncyFax  FROM agencies");
+
+					              foreach($sql as $row) {
+							              echo "<br><h4>Contact:</h4></br><h5>".$row["AgncyCity"]."</h5></br>Address: ".$row["AgncyAddress"]."</br>Postalcode: ".$row["AgncyPostal"]."</br>Phone: ".$row["AgncyPhone"]."</br>Fax: ".$row["AgncyFax"]."</br>";
+						            }
+                    ?>
+
+
                 </div>
               </div>
         </body>
