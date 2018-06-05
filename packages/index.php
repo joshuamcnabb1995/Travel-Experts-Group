@@ -40,9 +40,7 @@
                                                     <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
                                                 </div>
                                             </div>
-                                            <?php
-                                                if(packageEndingSoon($row['PkgEndDate'])) echo '<div style="margin-top:10px;margin-bottom:-10px;font-weight:bold;color:red;">Ending soon...</div>';
-                                            ?>
+                                            <?php if(packageEndingSoon($row['PkgEndDate'])) echo '<div style="margin-top:10px;margin-bottom:-10px;font-weight:bold;color:red;">Ending soon...</div>'; ?>
                                         </div>
                                     </div>
                                 </div>
