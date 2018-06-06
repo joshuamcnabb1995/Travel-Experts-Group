@@ -7,80 +7,58 @@
     Modified by: Joshua McNabb
     Date: 06-05-2018
     Description: Converted MySQLi to PDO
+                 Added sessions with the text of the error messages
 */
 
 include('../inc/global.php'); // Database configuration and other checks
 
-// Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate username
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
-    } else{
-        // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $username_err = "This username is already taken.";
-                } else{
-                    $username = trim($_POST["username"]);
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-        // Closing the statement
-        mysqli_stmt_close($stmt);
-    }
-    // Validating the password
-    if(empty(trim($_POST['password']))){
-        $password_err = "Please enter a password.";
-    } elseif(strlen(trim($_POST['password'])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
-    } else{
-        $password = trim($_POST['password']);
-    }
-    // Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = 'Please confirm password.';
-    } else{
-        $confirm_password = trim($_POST['confirm_password']);
-        if($password != $confirm_password){
-            $confirm_password_err = 'Password did not match.';
-        }
-    }
-    // Checking input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-            // Set parameters
-            $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            // Attempting to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Redirecting to login page
-                header("location: login.php");
-            } else{
-                echo "Something went wrong. Please try again later.";
-            }
-        }
-        // Closing statement
-        mysqli_stmt_close($stmt);
-    }
-    // Closing connection
-    mysqli_close($link);
+$username = $_POST['username'];
+$password = $_POST['password'];
+$confirm = $_POST['confirm'];
+
+// Validate username
+if(empty(trim($_POST['username'])))
+    $_SESSION['usernameError'] = 'Please enter a username.';
+
+else {
+    $getUser = $database->prepare("SELECT id FROM users WHERE username = ?"); // Prepare a select statement
+    $getUser->execute([$username]); // Execute the prepared statement with the placeholder
+
+    if($getUser->rowCount() == 1)
+        $_SESSION['usernameError'] = 'This username is taken.';
+}
+
+// Validating the password
+if(empty(trim($_POST['password'])))
+    $_SESSION['passwordError'] = 'Please enter a password.';
+
+else if(strlen(trim($_POST['password'])) < 6)
+    $_SESSION['passwordError'] = 'Password must have atleast 6 characters.';
+
+else
+    $password = trim($_POST['password']);
+
+// Validate confirm password
+if(empty(trim($_POST['confirm_password']))) {
+    $_SESSION['confirmError'] = 'Please confirm password.';
+
+else {
+    $confirm_password = trim($_POST['confirm_password']);
+    if($password != $confirm_password)
+        $_SESSION['confirmError'] = 'Password did not match.';
+}
+
+// Check input errors before inserting in database
+if(empty($_SESSION['usernameError']) && empty($_SESSION['passwordError']) && empty($_SESSION['confirmError'])) {
+    // Prepare an insert statement
+    $addUser = $database->query("INSERT INTO users (username, password) VALUES (?, ?)");
+    $passwordOptions = [ 'cost' => 13 ]; // Make the password somewhat difficult to crack
+    $addUser->execute($username, password_hash($password, PASSWORD_BCRYPT, $passwordOptions)); // Hash the password with Bcrypt
+
+    // Attempting to execute the prepared statement
+    if($addUser->errorCode() == 0) // Check for errors
+        header('location: login.php'); // Redirect to login page if the query went through successfully
+
+    else
+        echo 'Something went wrong. Please try again later.'; // Otherwise, show an error
 }

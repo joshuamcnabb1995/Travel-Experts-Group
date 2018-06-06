@@ -1,4 +1,5 @@
-<!--
+<?php
+/*
     Author: Safiq Momin
     Date of creation: 06-01-2018
     Description: The file contains html code for registration
@@ -8,8 +9,18 @@
     Description:  Modified client-side validation to use jQuery-validation.
                   Added input field hints using popovers.
                   Modified formatting to use a Bootstrap "card" layout.
--->
-<?php $page = 5; ?>
+*/
+    session_start();
+    $page = 5;
+    if(isset($_SESSION['usernameError']))
+        $usernameError = $_SESSION['usernameError'];
+
+    if(isset($_SESSION['passwordError']))
+        $passwordError = $_SESSION['passwordError'];
+
+    if(isset($_SESSION['confirmError']))
+        $confirmError = $_SESSION['confirmError'];
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -98,22 +109,22 @@
                                 <input type="email" class="form-control" id="email" name="email" />
                             </div>
 
-                            <div class="form-group col-md-6 <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group col-md-6 <?php echo (!isset($usernameError)) ? 'has-error' : ''; ?>">
                                 <label>Username <font color="red">*</font></label>
                                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>" required />
-                                <span class="help-block"><?php echo $username_err; ?></span>
+                                <span class="help-block"><?php echo (isset($usernameError)) ? $usernameError : ''; ?></span>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6 <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group col-md-6 <?php echo (!isset($usernameError)) ? 'has-error' : ''; ?>">
                                 <label>Password <font color="red">*</font></label>
                                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>" required />
-                                <span class="help-block"><?php echo $password_err; ?></span>
+                                <span class="help-block"><?php echo (isset($passwordError)) ? $passwordError : ''; ?></span>
                             </div>
-                            <div class="form-group col-md-6 <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group col-md-6 <?php echo (!isset($confirmError)) ? 'has-error' : ''; ?>">
                                 <label>Confirm Password <font color="red">*</font></label>
                                 <input type="password" name="confirm" class="form-control" value="<?php echo $confirm_password; ?>" required />
-                                <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                <span class="help-block"><?php echo (isset($confirmError)) ? $confirmError : ''; ?></span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -193,3 +204,4 @@
     <?php include('../inc/footer.php'); ?>
     </body>
 </html>
+<?php session_unset(); ?>
