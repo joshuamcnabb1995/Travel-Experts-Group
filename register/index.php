@@ -1,5 +1,5 @@
 <?php
-/*
+    /*
     Author: Safiq Momin
     Date of creation: 06-01-2018
     Description: The file contains html code for registration
@@ -9,9 +9,15 @@
     Description:  Modified client-side validation to use jQuery-validation.
                   Added input field hints using popovers.
                   Modified formatting to use a Bootstrap "card" layout.
-*/
-    session_start();
+
+    Modified by: Joshua McNabb
+    Date: 06-05-2018 - 06-05-2018
+    Description: Added sessions to bring error messages from the processRegistration.php page
+    */
+    include('../inc/global.php');
+
     $page = 5;
+
     if(isset($_SESSION['usernameError']))
         $usernameError = $_SESSION['usernameError'];
 
@@ -111,19 +117,19 @@
 
                             <div class="form-group col-md-6 <?php echo (!isset($usernameError)) ? 'has-error' : ''; ?>">
                                 <label>Username <font color="red">*</font></label>
-                                <input type="text" name="username" class="form-control" value="<?php echo $username; ?>" required />
+                                <input type="text" name="username" class="form-control"<?php if(isset($_SESSION['username'])) echo ' value="' . $_SESSION['username'] . '"'; ?> required />
                                 <span class="help-block"><?php echo (isset($usernameError)) ? $usernameError : ''; ?></span>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 <?php echo (!isset($usernameError)) ? 'has-error' : ''; ?>">
                                 <label>Password <font color="red">*</font></label>
-                                <input type="password" name="password" class="form-control" value="<?php echo $password; ?>" required />
+                                <input type="password" name="password" class="form-control"<?php if(isset($_SESSION['password'])) echo ' value="' . $_SESSION['password'] . '"'; ?> required />
                                 <span class="help-block"><?php echo (isset($passwordError)) ? $passwordError : ''; ?></span>
                             </div>
                             <div class="form-group col-md-6 <?php echo (!isset($confirmError)) ? 'has-error' : ''; ?>">
                                 <label>Confirm Password <font color="red">*</font></label>
-                                <input type="password" name="confirm" class="form-control" value="<?php echo $confirm_password; ?>" required />
+                                <input type="password" name="confirm" class="form-control"<?php if(isset($_SESSION['confirm'])) echo ' value="' . $_SESSION['confirm'] . '"'; ?> required />
                                 <span class="help-block"><?php echo (isset($confirmError)) ? $confirmError : ''; ?></span>
                             </div>
                         </div>
@@ -164,7 +170,7 @@
                 return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test(value);
             }
 
-            $('#customerform').validate({
+            /*$('#createAccount').validate({
                 rules: {
                     firstname: { required: true },
                     lastname: { required: true },
@@ -198,7 +204,7 @@
                     },
                     email: { email: "Please enter a valid email address" }
                 }
-            });
+            });*/
         });
     </script>
     <?php include('../inc/footer.php'); ?>
