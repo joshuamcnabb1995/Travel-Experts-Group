@@ -4,3 +4,6 @@
   color: red;
 }
 /* Corinne */
+
+font[color='red'] {font-weight: bold; }
+label { font-weight: bold; }
