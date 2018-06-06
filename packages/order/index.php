@@ -4,12 +4,25 @@
    Description:  Create the form and PHP script to handle package bookings.
 -->
 
-<!-- Set the $page variable to be that of the packages page.  The orders page itself
-does not appear in the navigation menu as the user should not navigate directly to
-the orders page -->
+
 <?php
+    # Set the $page variable to be that of the packages page.  The orders page itself
+    # does not appear in the navigation menu as the user should not navigate directly to
+    # the orders page
     $page = 2;
     include('../../inc/global.php');
+
+    # Include the Customer class definition
+    include("../inc/classes/customer.php");
+
+    # Check if the user is logged in.  If so, create a Customer object.  The customer
+    # constructor will create a customer object and populate it with the data from the
+    # customers table in the database when it is passed a userid
+
+    $loggedin = isset($_COOKIE["uid"]);
+    if ($loggedin) {
+      $customer = new Customer($_COOKIE["uid"]);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +40,7 @@ the orders page -->
 
   <!-- Need to populate the form based on the customer data (if the customer is logged in)
   and with the selected package.  Need to add field in form to show the selected package
-  plus a progra-generating booking number.  The customer must add the number of travellers. -->
+  plus a program-generated booking number.  The customer must add the number of travellers. -->
 
   <div class="container" style="margin-top:80px; margin-bottom:80px;">
 
@@ -36,31 +49,47 @@ the orders page -->
       # customer's order
       include('../../inc/database.php');
 
-      $currentDate = date('Y-m-d h:i:s');
-      echo "<b>Booking Date: </b>" . $currentDate . "<br>";
-
       # The packageId and the number of travellers have been passed from the packages
       # page in $_POST.  Use packageId to obtain the package details from the database
       # and use the number of travellers to calculate the total cost.
 
-      # CHANGE WHEN WORKING
-      #$pkgId = $_POST["packageId"];
-      $pkgId = 1;
-      $numTravellers = 2;
+      # The package id and number of travellers have been placed in $_POST when the
+      # order button is clicked on the packages page.  Save these into $_SESSION variables
+      # so that they are readily accessible to processorder.php.
+      $_SESSION["pkgid"] = $_POST["packageId"];
+      $_SESSION["qty"] = $_POST["qty"];
+
+      # Do some basic error checking.  Ensure that the package id exists in the $database
+      # and the number of travellers is > 0.  In case of an error, set the $_SESSION["ordererror"]
+      # variable and return to the packages page
+      if (($_SESSION["qty"] < 1)) {
+        $_SESSION["ordererror"] = true;
+        header("Location:../index.php");
+        exit();
+      }
 
       $sql = "SELECT * FROM packages where PackageId = " . "'" . $pkgId . "'";
       $result = $database->query($sql);
 
-      # Only one row will be returned
-      $row = $result->fetch();
-      echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
-      echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
-      echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
-      echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
-      printf("<b>Cost per Person:  $%9.2f</b><br><br>", $row["PkgBasePrice"]);
+      if (!$result) {
+        $_SESSION["ordererror"] = true;
+        header("Location:../index.php");
+        exit();
+      }
+      else {
+        # On success, display the order details for the user to review before
+        # filling out the form.
+        # Note that only one row will be returned from the query to the packages table.
+        $row = $result->fetch();
+        echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
+        echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
+        echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
+        echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
+        printf("<b>Cost per Person:  $%9.2f</b><br>", $row["PkgBasePrice"]);
+        echo "<b>Number of Travellers: </b>" . $_SESSION["qty"] . "<br><br>";
 
-      # DO I NEED TO ADD COMMISSION TO BASE PRICE??
-      printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $numTravellers);
+        printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["qty"]);
+      }
     ?>
 
     <div class="card">
@@ -71,80 +100,87 @@ the orders page -->
         <p class="card-text"><h6>Please complete this form to make a booking</h6></p>
         <br>
 
+        <!-- If the customer is logged in, auto-populate the input fields in the form with
+         the customer data obtained from the database. -->
         <form id="customerform" action="processorder.php" method="post">
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="fn">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
-              <input type="text" class="form-control" id="fn" name="fn">
+              <input type="text" class="form-control" id="fn" name="fn" value="<?php $loggedin ? echo $customer->firstname: ; ?>">
             </div>
             <div class="form-group col-md-6">
               <label for="ln">Last Name<sup>*</sup></small></label>
-              <input type="text" class="form-control" id="ln" name="ln">
+              <input type="text" class="form-control" id="ln" name="ln" value="<?php $loggedin ? echo $customer->lastname: ; ?>">
             </div>
           </div>
           <div class="form-group">
             <label for="ad">Address</label>
-            <input type="text" class="form-control" id="ad" name="ad">
+            <input type="text" class="form-control" id="ad" name="ad" value="<?php $loggedin ? echo $customer->address: ; ?>">
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="ct">City</label>
-              <input type="text" class="form-control" id="ct" name="ct">
+              <input type="text" class="form-control" id="ct" name="ct" value="<?php $loggedin ? echo $customer->city: ; ?>">
             </div>
             <div class="form-group col-md-4">
               <label for="pv">Province</label>
               <select id="pv" class="form-control">
-                <option selected>Choose Province</option>
-                <option>AB</option>
-                <option>BC</option>
-                <option>MB</option>
-                <option>NS</option>
-                <option>NB</option>
-                <option>NL</option>
-                <option>NT</option>
-                <option>NU</option>
-                <option>ON</option>
-                <option>PE</option>
-                <option>QC</option>
-                <option>SK</option>
-                <option>YT</option>
+                <option <?php $loggedin ? : echo "selected"; ?>>Choose Province</option>
+                <option <?php ($loggedin && $customer.province=="AB") ? : echo "selected"; ?>>AB</option>
+                <option <?php ($loggedin && $customer.province=="BC") ? : echo "selected"; ?>>BC</option>
+                <option <?php ($loggedin && $customer.province=="MB") ? : echo "selected"; ?>>MB</option>
+                <option <?php ($loggedin && $customer.province=="NS") ? : echo "selected"; ?>>NS</option>
+                <option <?php ($loggedin && $customer.province=="NB") ? : echo "selected"; ?>>NB</option>
+                <option <?php ($loggedin && $customer.province=="NL") ? : echo "selected"; ?>>NL</option>
+                <option <?php ($loggedin && $customer.province=="NT") ? : echo "selected"; ?>>NT</option>
+                <option <?php ($loggedin && $customer.province=="NU") ? : echo "selected"; ?>>NU</option>
+                <option <?php ($loggedin && $customer.province=="ON") ? : echo "selected"; ?>>ON</option>
+                <option <?php ($loggedin && $customer.province=="PE") ? : echo "selected"; ?>>PE</option>
+                <option <?php ($loggedin && $customer.province=="QC") ? : echo "selected"; ?>>QC</option>
+                <option <?php ($loggedin && $customer.province=="SK") ? : echo "selected"; ?>>SK</option>
+                <option <?php ($loggedin && $customer.province=="YT") ? : echo "selected"; ?>>YT</option>
               </select>
             </div>
             <div class="form-group col-md-2">
               <label for="pc">Postal Code</label>
-              <input type="text" class="form-control" id="pc" name="pc">
+              <input type="text" class="form-control" id="pc" name="pc" value="<?php $loggedin ? echo $customer->postalcode: ; ?>">
             </div>
           </div>
           <div class="form-group">
             <label for="cn">Country</label>
-            <input type="text" class="form-control" id="cn" name="cn" default="Canada">
+            <input type="text" class="form-control" id="cn" name="cn" value="<?php $loggedin ? echo $customer->country: echo 'Canada'; ?>">
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="hp">Home Phone</label>
-              <input type="tel" class="form-control" id="hp" name="hp">
+              <input type="tel" class="form-control" id="hp" name="hp" value="<?php $loggedin ? echo $customer->homephone: ; ?>">
             </div>
             <div class="form-group col-md-6">
               <label for="bp">Business Phone</label>
-              <input type="tel" class="form-control" id="bp" name="bp">
+              <input type="tel" class="form-control" id="bp" name="bp" value="<?php $loggedin ? echo $customer->businessphone: ; ?>">
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="em">Email<sup>*</sup></label>
-              <input type="email" class="form-control" id="em" name="em">
+              <input type="email" class="form-control" id="em" name="em" value="<?php $loggedin ? echo $customer->email: ; ?>">
             </div>
           </div>
 
           <div class="form-group">
               <input type="submit" name="booktrip" class="btn btn-primary" value="Book Trip">
               <input type="button" class="btn btn-default" value="Cancel" onclick="window.location.href='../index.php'">
-            </div>
+          </div>
 
         </form>
 
-      <!-- Only show the following if user is not logged in -->
-      <p>Already have an account? <a href="../../login/index.php">Login here</a>.</p>
+      <!-- If no user is logged in, give the customer the option of going into the login page -->
+      <?php
+        if (!$loggedin) {
+          echo "<p>Already have an account? <a href="../../login/index.php">Login here</a>.</p>";
+        }
+      ?>
+
     </div>
   </div>
 </div>
