@@ -19,7 +19,7 @@
 
                         <p class="lead">Please send us a message and one of our agents will get in touch with you as soon as possible.</p>
 
-                                ------------------------------------------
+
                                 <form id="contact-form" method="post" action="contact.php" role="form">
 
                                   <label for="form_name">Firstname *</label>
