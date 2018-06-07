@@ -4,6 +4,10 @@
    Description:  Process the package booking request.
 -->
 
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,7 +32,7 @@
         # At this point, leave the agentId blank as the customer is not associated with an
         # agent at this point, and they have made the booking online themselves.
         if (!$loggedin) {
-            $values = "''" . $_POST["fn"] . "', ";
+            $values = "'" . $_POST["fn"] . "', ";
             $values .= "'" . $_POST["ln"] . "', ";
             $values .= "'" . $_POST["ad"] . "', ";
             $values .= "'" . $_POST["ct"] . "', ";
@@ -51,7 +55,8 @@
         if ($result) {
             $sql = "SELECT CustomerId FROM customers WHERE CustFirstName = '" . $_POST["fn"] . "' AND ";
             $sql .= "CustLastName = '" . $_POST["ln"] . "' AND ";
-            $sql .= "CustEmail = '" . $_POST["email"] . "'";
+            $sql .= "CustEmail = '" . $_POST["em"] . "'";
+
             $result = $database->query($sql);
             if ($result) {
               $customerid = $result->fetch();
@@ -65,22 +70,23 @@
             $bookingDate = date('Y-m-d');
 
             # Randomly generate a string of 7 digits/letters for the booking number.  Use
-            # the uniqid() function, convert the letters to upper case, and truncate to 7
-            # characters to match the booking numbers already in the database.
+            # the uniqid() function, convert the letters to upper case, and truncate to the
+            # last 7 characters to roughly match the format of the booking numbers already
+            # in the database.
 
             # For the prototype, assume all the packages that can be booked have a trip
             # type of "L" for leisure
-            $bookingNumber = substr(strtoupper(uniqid()),0,7);
+            $bookingNumber = substr(strtoupper(uniqid()),6,7);
 
-            $values = "''" . $bookingDate . "', ";
+            $values = "'" . $bookingDate . "', ";
             $values .= "'" . $bookingNumber . "', ";
             $values .= "'" . $_SESSION["qty"] . "', ";
-            $values .= "'" . $customerid . "', ";
+            $values .= "'" . $customerid["CustomerId"] . "', ";
             $values .= "'L', ";
-            $values .= "'" . $_SESSION["packageid"] . "'";
+            $values .= "'" . $_SESSION["pkgid"] . "'";
 
             $sql = "INSERT INTO bookings ";
-            $sql .= "(BookingDate, BookingNo, TravellerCount, CustomerId, TripTypeId, PackageId)";
+            $sql .= "(BookingDate, BookingNo, TravelerCount, CustomerId, TripTypeId, PackageId)";
             $sql .= " VALUES (" . $values . ")";
 
             $result = $database->query($sql);

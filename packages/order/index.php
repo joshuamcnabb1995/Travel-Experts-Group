@@ -6,6 +6,8 @@
 
 
 <?php
+    session_start();
+
     # Set the $page variable to be that of the packages page.  The orders page itself
     # does not appear in the navigation menu as the user should not navigate directly to
     # the orders page
@@ -124,7 +126,7 @@
                 </div>
                 <div class="form-group col-md-4">
                   <label for="pv">Province</label>
-                  <select id="pv" class="form-control">
+                  <select id="pv" name="pv" class="form-control">
                     <option <?php echo ($loggedin ? "":"selected"); ?>>Choose Province</option>
                     <option <?php echo (($loggedin && $customer.province=="AB") ? "selected":""); ?>>AB</option>
                     <option <?php echo (($loggedin && $customer.province=="BC") ? "selected":""); ?>>BC</option>
