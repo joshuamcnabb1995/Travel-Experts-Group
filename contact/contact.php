@@ -1,11 +1,11 @@
  <?php
 
 
-      $from = 'Demo contact form <demo@domain.com>';
+      $from = '<demo@domain.com>';
       $sendTo = '<sara_n_h@yahoo.com>';
       $subject = 'New message from contact form';
       $fields = array('fname' => 'FirstName', 'surname' => 'Surname', 'phone' => 'Phone', 'email' => 'Email', 'message' => 'Message');
-      $okMessage = 'Contact form successfully submitted. Thank you, we will get back to you soon!';
+      $okMessage = 'Your message successfully submitted. Thank you, we will get back to you soon!';
       $errorMessage = 'There was an error while submitting the form. Please try again later';
 
       // turn this off by error_reporting(0) after debugging;
@@ -14,7 +14,7 @@
       try
       {
 
-        if(count($_POST) == 0) throw new \Exception('Form is empty');
+        if(count($_POST) == 0) echo'Form is empty';
 
         $emailText = "You have a new message from your contact form\n=============================\n";
 
@@ -36,6 +36,7 @@
 
       $responseArray = array('type' => 'success', 'message' => $okMessage);
     }
+
     catch (\Exception $e)
     {
       $responseArray = array('type' => 'danger', 'message' => $errorMessage);
