@@ -22,75 +22,49 @@
       <?php
         include('../../inc/database.php');
 
+        # Include the Customer class definition
+        include("../inc/classes/customer.php");
+
+        # If the user has somehow reached this page without being logged in, set
+        # $_SESSION["ordererror"] and return to the packages page
         $loggedin = isset($_COOKIE["uid"]);
-
-        # $result will be set to false on any database query errors
-        $result = true;
-
-        # If the user is not logged in, store the user information in the customer table.
-        # The CustomerId will be autoincremented so does not need to be included.
-        # At this point, leave the agentId blank as the customer is not associated with an
-        # agent at this point, and they have made the booking online themselves.
         if (!$loggedin) {
-            $values = "'" . $_POST["fn"] . "', ";
-            $values .= "'" . $_POST["ln"] . "', ";
-            $values .= "'" . $_POST["ad"] . "', ";
-            $values .= "'" . $_POST["ct"] . "', ";
-            $values .= "'" . $_POST["pv"] . "', ";
-            $values .= "'" . $_POST["pc"] . "', ";
-            $values .= "'" . $_POST["cn"] . "', ";
-            $values .= "'" . $_POST["hp"] . "', ";
-            $values .= "'" . $_POST["bp"] . "', ";
-            $values .= "'" . $_POST["em"] . "'";
-
-            $sql = "INSERT INTO customers ";
-            $sql .= "(CustFirstName, CustLastName, CustAddress, CustCity, CustProv, CustPostal, CustCountry, CustHomePhone, CustBusPhone, CustEmail)";
-            $sql .= " VALUES (" . $values . ")";
-
-            $result = $database->query($sql);
+          $_SESSION["ordererror"] = true;
+          header("Location:../index.php");
+          exit();
         }
 
-        # Retrieve the customerId from the database.  This assumes the customer first name,
-        # last name, and email together uniquely identify the customer.
-        if ($result) {
-            $sql = "SELECT CustomerId FROM customers WHERE CustFirstName = '" . $_POST["fn"] . "' AND ";
-            $sql .= "CustLastName = '" . $_POST["ln"] . "' AND ";
-            $sql .= "CustEmail = '" . $_POST["em"] . "'";
+        # The customer will always be logged in at this point, so there is no need
+        # to add a record to the customers table in the database, as this was done
+        # during the registration process.
 
-            $result = $database->query($sql);
-            if ($result) {
-              $customerid = $result->fetch();
-            }
-        }
+        # Create a customer object from the userid
+        $customer = new Customer($_COOKIE["uid"]);
 
-        # Only continue with the addition of the booking record if a customer id was
-        # successfully retrieved
-        if ($result) {
+        # Now add a new booking record into the bookings table
+        $bookingDate = date('Y-m-d');
 
-            $bookingDate = date('Y-m-d');
+        # Randomly generate a string of 7 digits/letters for the booking number.  Use
+        # the uniqid() function, convert the letters to upper case, and truncate to the
+        # last 7 characters to roughly match the format of the booking numbers already
+        # in the database.
+        $bookingNumber = substr(strtoupper(uniqid()),6,7);
 
-            # Randomly generate a string of 7 digits/letters for the booking number.  Use
-            # the uniqid() function, convert the letters to upper case, and truncate to the
-            # last 7 characters to roughly match the format of the booking numbers already
-            # in the database.
+        # For the prototype, assume all the packages that can be booked have a trip
+        # type of "L" for leisure
 
-            # For the prototype, assume all the packages that can be booked have a trip
-            # type of "L" for leisure
-            $bookingNumber = substr(strtoupper(uniqid()),6,7);
+        $values = "'" . $bookingDate . "', ";
+        $values .= "'" . $bookingNumber . "', ";
+        $values .= "'" . $_SESSION["quantity"] . "', ";
+        $values .= "'" . $customerid["CustomerId"] . "', ";
+        $values .= "'L', ";
+        $values .= "'" . $_SESSION["id"] . "'";
 
-            $values = "'" . $bookingDate . "', ";
-            $values .= "'" . $bookingNumber . "', ";
-            $values .= "'" . $_SESSION["qty"] . "', ";
-            $values .= "'" . $customerid["CustomerId"] . "', ";
-            $values .= "'L', ";
-            $values .= "'" . $_SESSION["pkgid"] . "'";
+        $sql = "INSERT INTO bookings ";
+        $sql .= "(BookingDate, BookingNo, TravelerCount, CustomerId, TripTypeId, PackageId)";
+        $sql .= " VALUES (" . $values . ")";
 
-            $sql = "INSERT INTO bookings ";
-            $sql .= "(BookingDate, BookingNo, TravelerCount, CustomerId, TripTypeId, PackageId)";
-            $sql .= " VALUES (" . $values . ")";
-
-            $result = $database->query($sql);
-        }
+        $result = $database->query($sql);
 
         # If the database was updated successfully, give a success message and provide a link
         # for the user to return to the main Travel Experts page

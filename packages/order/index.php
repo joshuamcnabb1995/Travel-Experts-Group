@@ -6,6 +6,7 @@
 
 
 <?php
+    # Allow access to the $_SESSION[] variables
     session_start();
 
     # Set the $page variable to be that of the packages page.  The orders page itself
@@ -17,14 +18,21 @@
     # Include the Customer class definition
     include("../inc/classes/customer.php");
 
-    # Check if the user is logged in.  If so, create a Customer object.  The customer
-    # constructor will create a customer object and populate it with the data from the
-    # customers table in the database when it is passed a userid
-
+    # The user is only able to access the orders page from the packages page when they
+    # are logged in.  Confirm here that the user is logged in just in case they have managed
+    # to access the orders page directly, rather than through the packages page.  If no user
+    # is logged in, set $_SESSIOn["ordererror"] and return to the packages page.
     $loggedin = isset($_COOKIE["uid"]);
-    if ($loggedin) {
-      $customer = new Customer($_COOKIE["uid"]);
+    if (!$loggedin) {
+      $_SESSION["ordererror"] = true;
+      header("Location:../index.php");
+      exit();
     }
+
+    # The Customer class constructor will create a customer object and populate it with the
+    # data from the customers table in the database when it is passed a userid
+    $customer = new Customer($_COOKIE["uid"]);
+
 ?>
 
 <!DOCTYPE html>
@@ -58,19 +66,19 @@
         # The package id and number of travellers have been placed in $_POST when the
         # order button is clicked on the packages page.  Save these into $_SESSION variables
         # so that they are readily accessible to processorder.php.
-        $_SESSION["pkgid"] = $_POST["packageId"];
-        $_SESSION["qty"] = $_POST["qty"];
+        $_SESSION["id"] = $_POST["id"];
+        $_SESSION["quantity"] = $_POST["quantity"];
 
         # Do some basic error checking.  Ensure that the package id exists in the $database
         # and the number of travellers is > 0.  In case of an error, set the $_SESSION["ordererror"]
         # variable and return to the packages page
-        if (($_SESSION["qty"] < 1)) {
+        if (($_SESSION["quantity"] < 1)) {
           $_SESSION["ordererror"] = true;
           header("Location:../index.php");
           exit();
         }
 
-        $sql = "SELECT * FROM packages where PackageId = " . "'" . $_SESSION["pkgid"] . "'";
+        $sql = "SELECT * FROM packages where PackageId = " . "'" . $_SESSION["id"] . "'";
         $result = $database->query($sql);
 
         if (!$result) {
@@ -88,9 +96,9 @@
           echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
           echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
           printf("<b>Cost per Person:  $%9.2f</b><br>", $row["PkgBasePrice"]);
-          echo "<b>Number of Travellers: </b>" . $_SESSION["qty"] . "<br><br>";
+          echo "<b>Number of Travellers: </b>" . $_SESSION["quantity"] . "<br><br>";
 
-          printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["qty"]);
+          printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["quantity"]);
         }
         ?>
 
@@ -107,65 +115,65 @@
             <form id="customerform" action="processorder.php" method="post">
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="fn">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
-                  <input type="text" class="form-control" id="fn" name="fn" value="<?php echo ($loggedin ? $customer->firstname:''); ?>">
+                  <label for="firstname">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
+                  <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $customer->getInfo('CustFirstName'); ?>">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="ln">Last Name<sup>*</sup></small></label>
-                  <input type="text" class="form-control" id="ln" name="ln" value="<?php echo ($loggedin ? $customer->lastname:''); ?>">
+                  <label for="lastname">Last Name<sup>*</sup></small></label>
+                  <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $customer->getInfo('CustLastName'); ?>">
                 </div>
               </div>
               <div class="form-group">
-                <label for="ad">Address</label>
-                <input type="text" class="form-control" id="ad" name="ad" value="<?php echo ($loggedin ? $customer->address:''); ?>">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="<?php echo $customer->getInfo('CustAddress'); ?>">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="ct">City</label>
-                  <input type="text" class="form-control" id="ct" name="ct" value="<?php echo ($loggedin ? $customer->city:''); ?>">
+                  <input type="text" class="form-control" id="city" name="city" value="<?php echo $customer->getInfo('CustCity'); ?>">
                 </div>
                 <div class="form-group col-md-4">
-                  <label for="pv">Province</label>
-                  <select id="pv" name="pv" class="form-control">
-                    <option <?php echo ($loggedin ? "":"selected"); ?>>Choose Province</option>
-                    <option <?php echo (($loggedin && $customer.province=="AB") ? "selected":""); ?>>AB</option>
-                    <option <?php echo (($loggedin && $customer.province=="BC") ? "selected":""); ?>>BC</option>
-                    <option <?php echo (($loggedin && $customer.province=="MB") ? "selected":""); ?>>MB</option>
-                    <option <?php echo (($loggedin && $customer.province=="NB") ? "selected":""); ?>>NB</option>
-                    <option <?php echo (($loggedin && $customer.province=="NL") ? "selected":""); ?>>NL</option>
-                    <option <?php echo (($loggedin && $customer.province=="NS") ? "selected":""); ?>>NS</option>
-                    <option <?php echo (($loggedin && $customer.province=="NT") ? "selected":""); ?>>NT</option>
-                    <option <?php echo (($loggedin && $customer.province=="NU") ? "selected":""); ?>>NU</option>
-                    <option <?php echo (($loggedin && $customer.province=="ON") ? "selected":""); ?>>ON</option>
-                    <option <?php echo (($loggedin && $customer.province=="PE") ? "selected":""); ?>>PE</option>
-                    <option <?php echo (($loggedin && $customer.province=="QC") ? "selected":""); ?>>QC</option>
-                    <option <?php echo (($loggedin && $customer.province=="SK") ? "selected":""); ?>>SK</option>
-                    <option <?php echo (($loggedin && $customer.province=="YT") ? "selected":""); ?>>YT</option>
+                  <label for="province">Province</label>
+                  <select id="province" name="province" class="form-control">
+                    <option>Choose Province</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="AB") ? "selected":""; ?>>AB</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="BC") ? "selected":""; ?>>BC</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="MB") ? "selected":""; ?>>MB</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NB") ? "selected":""; ?>>NB</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NL") ? "selected":""; ?>>NL</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NS") ? "selected":""; ?>>NS</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NT") ? "selected":""; ?>>NT</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NU") ? "selected":""; ?>>NU</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="ON") ? "selected":""; ?>>ON</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="PE") ? "selected":""; ?>>PE</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="QC") ? "selected":""; ?>>QC</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="SK") ? "selected":""; ?>>SK</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="YT") ? "selected":""; ?>>YT</option>
                   </select>
                 </div>
                 <div class="form-group col-md-2">
-                  <label for="pc">Postal Code</label>
-                  <input type="text" class="form-control" id="pc" name="pc" value="<?php echo ($loggedin ? $customer->postalcode:''); ?>">
+                  <label for="postalcode">Postal Code</label>
+                  <input type="text" class="form-control" id="postalcode" name="postalcode" value="<?php echo $customer->getInfo('CustPostal'); ?>">
                 </div>
               </div>
               <div class="form-group">
-                <label for="cn">Country</label>
-                <input type="text" class="form-control" id="cn" name="cn" value="<?php echo ($loggedin ? $customer->country:'Canada'); ?>">
+                <label for="country">Country</label>
+                <input type="text" class="form-control" id="country" name="country" value="<?php echo $customer->getInfo('CustCountry'); ?>">
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="hp">Home Phone</label>
-                  <input type="tel" class="form-control" id="hp" name="hp" value="<?php echo ($loggedin ? $customer->homephone:''); ?>">
+                  <label for="homephone">Home Phone</label>
+                  <input type="tel" class="form-control" id="homephone" name="homephone" value="<?php echo $customer->getInfo('CustHomePhone'); ?>">
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="bp">Business Phone</label>
-                  <input type="tel" class="form-control" id="bp" name="bp" value="<?php echo ($loggedin ? $customer->businessphone:''); ?>">
+                  <label for="businessphone">Business Phone</label>
+                  <input type="tel" class="form-control" id="businessphone" name="businessphone" value="<?php echo $customer->getInfo('CustBusPhone'); ?>">
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="em">Email<sup>*</sup></label>
-                  <input type="email" class="form-control" id="em" name="em" value="<?php echo ($loggedin ? $customer->email:''); ?>">
+                  <label for="email">Email<sup>*</sup></label>
+                  <input type="email" class="form-control" id="email" name="email" value="<?php echo $customer->getInfo('CustEmail'); ?>">
                 </div>
               </div>
 
@@ -175,13 +183,6 @@
               </div>
 
             </form>
-
-            <!-- If no user is logged in, give the customer the option of going into the login page -->
-            <?php
-            if (!$loggedin) {
-              echo "<p>Already have an account? <a href='../../login/index.php'>Login here</a></p>";
-            }
-            ?>
 
           </div>
         </div>
@@ -193,19 +194,16 @@
       <script>
 
       $(document).ready(function(){
-        $('#fn').popover({content: "Please enter your first name", placement: "top", trigger: "focus"});
-        $('#ln').popover({content: "Please enter your last name", placement: "top", trigger: "focus"});
-        $('#ad').popover({content: "Please enter your address", placement: "top", trigger: "focus"});
-        $('#ct').popover({content: "Please enter your city", placement: "top", trigger: "focus"});
-        $('#pv').popover({content: "Please select your province", placement: "bottom", trigger: "focus"});
-        $('#pc').popover({content: "Please enter your postal code as A1A 1A1", placement: "top", trigger: "focus"});
-        $('#cn').popover({content: "Please enter your country", placement: "top", trigger: "focus"});
-        $('#hp').popover({content: "Please enter your home phone number as a 10 digit number", placement: "top", trigger: "focus"});
-        $('#bp').popover({content: "Please enter your business phone number as a 10 digit number", placement: "top", trigger: "focus"});
-        $('#em').popover({content: "Please enter your email address", placement: "top", trigger: "focus"});
-        $('#id').popover({content: "Please choose a user ID containing only letters and numbers", placement: "top", trigger: "focus"});
-        $('#p1').popover({content: "Please choose a password", placement: "top", trigger: "focus"});
-        $('#p2').popover({content: "Please re-enter the password", placement: "top", trigger: "focus"});
+        $('#firstname').popover({content: "Please enter your first name", placement: "top", trigger: "focus"});
+        $('#lastname').popover({content: "Please enter your last name", placement: "top", trigger: "focus"});
+        $('#address').popover({content: "Please enter your address", placement: "top", trigger: "focus"});
+        $('#city').popover({content: "Please enter your city", placement: "top", trigger: "focus"});
+        $('#province').popover({content: "Please select your province", placement: "bottom", trigger: "focus"});
+        $('#postalcode').popover({content: "Please enter your postal code as A1A 1A1", placement: "top", trigger: "focus"});
+        $('#country').popover({content: "Please enter your country", placement: "top", trigger: "focus"});
+        $('#homephone').popover({content: "Please enter your home phone number as a 10 digit number", placement: "top", trigger: "focus"});
+        $('#businessphone').popover({content: "Please enter your business phone number as a 10 digit number", placement: "top", trigger: "focus"});
+        $('#email').popover({content: "Please enter your email address", placement: "top", trigger: "focus"});
 
         // The postal code should be in the form A1A 1A1
         $.validator.methods.postalcode = function( value, element ) {
@@ -214,45 +212,45 @@
 
         $('#customerform').validate({
           rules: {
-            fn: {
+            firstname: {
               required: true
             },
-            ln: {
+            lastname: {
               required: true
             },
-            pc: {
+            postalcode: {
               postalcode: true
             },
-            bp: {
+            businessphone: {
               minlength: 10,
               maxlength: 10,
               digits: true
             },
-            hp: {
+            homephone: {
               minlength: 10,
               maxlength: 10,
               digits: true
             },
-            em: {
+            email: {
               required: true,
               email: true
             }
           },
           messages: {
-            pc: {
+            postalcode: {
               postalcode: "Postal code should be in the form A1A 1A1"
             },
-            bp: {
+            businessphone: {
               minlength: "Business phone number should be 10 digits",
               maxlength: "Business phone number should be 10 digits",
               digits: "Business phone number should contain only digits"
             },
-            hp: {
+            homephone: {
               minlength: "Home phone number should be 10 digits",
               maxlength: "Home phone number should be 10 digits",
               digits: "Home phone number should contain only digits"
             },
-            em: {
+            email: {
               email: "Please enter a valid email address"
             }
           }
