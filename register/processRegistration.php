@@ -28,8 +28,8 @@
 
     // Loop through all the form elements and save them as variables and sessions
     foreach($registrationForm as $key => $value) {
-        $$key = $value;
-        $_SESSION[$key] = trim($value); // Remove whitespace from beginning and end of the form input
+        $$key = $value; // Store each form value as a variable based on the key in the POST array ($username, $email, etc.)
+        $_SESSION[$key] = trim($value); // Remove whitespace from beginning and end of each form value
     }
 
     // Validate Email
@@ -72,13 +72,13 @@
         $addUser->execute($username, password_hash($password, PASSWORD_BCRYPT, $passwordOptions)); // Hash the password with Bcrypt so it's more secure than a plaintext password
 
         if($addUser->errorCode() == 0) // Check for errors
-            header('location: login.php'); // Redirect to login page if the query went through successfully (replace with code to lof the user in)
+            header('location: login.php'); // Redirect to login page if the query went through successfully (replace with code to log the user in)
 
         else
-            echo 'Something went wrong. Please try again later.'; // Otherwise, show an error
+            echo 'Unfortunately, a new customer account couldn\'t be created. We have sent this error to our IT Department and are working hard to solve it.'; // Otherwise, show an error
     }
 
     else {
         $_SESSION['formErrors'] = $formErrors;
-        header('Location: index.php');
+        header('Location: index.php'); // Redirect back to the login page so the errors can be shown under the appropriate fields
     }
