@@ -15,6 +15,7 @@ body { /*margin-bottom: 60px; Height of the footer */ }
 
 #packagesContainer, #package { margin: 80px auto 25px auto; }
 #packageWarning { margin-top: 80px; margin-bottom: -55px; }
+#registrationFormError { margin-top: -10px; margin-bottom: 20px; }
 #availablePackages { margin-bottom: 20px; }
 #availablePackages .album { margin-top: 10px; padding-bottom: 0 !important; }
 #availablePackages .pagination {
