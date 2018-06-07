@@ -10,6 +10,7 @@
         Work Done: Converted MySQLi to PDO
                      Added sessions with the text of the error messages
                      Added additional validation for all form fields
+                     Added function to generate errors
     */
 
     include('../inc/global.php'); // Database configuration and other checks
