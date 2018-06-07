@@ -18,10 +18,11 @@
     $formErrors = 0; // By default, there's no form errors, but they can be added
 
     // Function to handle error creation to reduce repetition
-    public function generateError($field, $errorMessage)
+    function generateError($field, $errorMessage)
     {
         $_SESSION[$field . 'Error'] = $errorMessage;
-        $formErrors += 1;
+        global $formErrors; // Declare the variable as global so it can be accessed outside the function
+        $formErrors += 1; // Add a new error everytime the function runs
     }
 
     // Loop through all the form elements and save them as variables and sessions
@@ -54,33 +55,14 @@
     }
     // Validate username
 
-    // Validating the password
-    if(empty($_POST['password'])) {
-        $_SESSION['passwordError'] = 'Please enter a password.';
-        $formErrors += 1;
-    }
-
-    else if(strlen($_POST['password']) < 6) {
-        $_SESSION['passwordError'] = 'Password must have atleast 6 characters.';
-        $formErrors += 1;
-    }
-
-    else
-        $password = $_POST['password'];
+    // Validate password
+    if(empty($_POST['password'])) generateError('password', 'Please enter a password');
+    else if(strlen($_POST['password']) < 6) generateError('password', 'Password must have atleast 6 characters.');
+    // Validate password
 
     // Validate confirm password
-    if(empty($_POST['confirm'])) {
-        $_SESSION['confirmError'] = 'Please confirm password.';
-        $formErrors += 1;
-    }
-
-    else {
-        $confirm_password = $_POST['confirm'];
-        if($password != $confirm_password) {
-            $_SESSION['confirmError'] = 'Passwords do not match.';
-            $formErrors += 1;
-        }
-    }
+    if(empty($_POST['confirm'])) generateError('confirm', 'Please confirm your password.');
+    else if($password != $confirm) generateError('confirm', 'Passwords do not match.');
 
     // Check form errors before inserting in database
     if($formErrors == 0) {
