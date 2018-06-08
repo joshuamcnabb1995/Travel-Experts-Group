@@ -42,10 +42,28 @@
 						<p class="product-description"><?php echo $package['PkgDesc']; ?></p>
                         <div id="dates" class="row">
                             <div class="col"><i class="fa fa-calendar"></i> Started: <?php echo date('Y-m-d', strtotime($package['PkgStartDate'])); ?></div>
-                            <div class="col<?php if(packageEndingSoon($package['PkgEndDate'])) echo ' expiring'; ?>"><i class="fa fa-calendar"></i> Ends: <?php if(packageEndingSoon($package['PkgEndDate'])) echo 'Tomorrow at ' . date('g:ia', strtotime($package['PkgEndDate'])); else echo date('Y-m-d', strtotime($package['PkgEndDate'])); ?></div>
+                            <div class="col<?php if(packageEndingSoon($package['PkgEndDate'])) echo ' expiring'; ?>"><i class="fa fa-calendar"></i> Ends:
+                            <?php
+                                $packageDate = date('Y-m-d', strtotime($package['PkgEndDate'])); // Display only the date
+                                $packageTime = date('g:ia', strtotime($package['PkgEndDate'])); // Display only the time
+
+                                if(packageEndingSoon($package['PkgEndDate'])) {
+                                    if($packageDate = date('Y-m-d')) echo 'Today at ' . $packageTime;
+
+                                    else echo 'Tomorrow at ' . $packageTime;
+                                }
+
+                                else echo $packageDate;
+                            ?>
+                            </div>
                         </div>
                         <h5 class="price">current price: <s>$5200.00</s> <span>$<?php echo number_format($package['PkgBasePrice'], 2, '.', ''); ?></span></h5>
-						<div class="action"><button class="add-to-cart btn btn-success" type="button" onclick="window.location.href='orders/?id=<?php echo $package['PackageId']; ?>'"><i class="fa fa-cart-plus"></i>&nbsp; Book Destination</button></div>
+                        <form id="quantity">
+                            Quantity:<br />
+                            <input class="form-control" type="number" name="quantity" step="1" min=1 max=10 value=0 >
+                            <input type="hidden" name="packageId" value="<?php echo $package['PackageId']; ?>" />
+                        </form>
+                        <div class="action"><button class="add-to-cart btn btn-success" type="button'"><i class="fa fa-cart-plus"></i>&nbsp; Book Destination</button></div>
 					</div>
 				</div>
 			</div>

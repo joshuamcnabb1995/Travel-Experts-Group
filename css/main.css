@@ -15,6 +15,7 @@ body { /*margin-bottom: 60px; Height of the footer */ }
 
 #packagesContainer, #package { margin: 80px auto 25px auto; }
 #packageWarning { margin-top: 80px; margin-bottom: -55px; }
+#registrationFormError { margin-top: -10px; margin-bottom: 20px; }
 #availablePackages { margin-bottom: 20px; }
 #availablePackages .album { margin-top: 10px; padding-bottom: 0 !important; }
 #availablePackages .pagination {
@@ -160,16 +161,21 @@ section .section-title{
 
 /* https://bootsnipp.com/snippets/MRaea */
 .footer {
-    background: #eee none repeat scroll 0 0;
-    border-top: 4px solid #007bff;
+    background: #ddd none repeat scroll 0 0;
+    border-top: 1px solid #aaa;
     margin: 0;
     padding: 20px 0;
 }
 .footer_dv {
     width: 100%;
 }
+.footer_dv h4, .footer_dv h5:not(#companyTitle) {
+    color: #444;
+    border-bottom: 1px solid #777;
+    padding-bottom: 8px;
+}
+.footer_dv p { color: #555 !important; }
 .footer_dv h4 {
-    color: #212529;
     font-weight: bold;
     margin-bottom: 20px;
     text-transform: uppercase;
@@ -184,13 +190,13 @@ section .section-title{
     box-shadow: none;
 }
 .footer_dv ul li {
-    border-top: 1px solid #000;
-    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2);
-    color: #212529;
+    border-top: 1px solid #fff;
+    box-shadow: 0 -1px 0 #999;
+    color: #555;
     padding: 5px 0;
 }
 .footer_dv p {
-    color: #000;
+    color: #fff;
     font-size: 14px;
     line-height: 20px;
     margin: 0 0 15px;
