@@ -5,8 +5,9 @@
 -->
 
 <?php
-  # Start the session so that the $_SESSION[] variables can be accessed
-  session_start();
+  # global.php includes a start_session() command so the $_SESSION[] variables are
+  # available in this page
+  include('../../inc/global.php');
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +26,7 @@
         include('../../inc/database.php');
 
         # Include the Customer class definition
-        include("../inc/classes/customer.php");
+        include("../../inc/classes/Customer.php");
 
         # If the user has somehow reached this page without being logged in, set
         # $_SESSION["ordererror"] and return to the packages page
@@ -58,7 +59,7 @@
         $values = "'" . $bookingDate . "', ";
         $values .= "'" . $bookingNumber . "', ";
         $values .= "'" . $_SESSION["quantity"] . "', ";
-        $values .= "'" . $customerid["CustomerId"] . "', ";
+        $values .= "'" . $customer->getInfo("CustomerId") . "', ";
         $values .= "'L', ";
         $values .= "'" . $_SESSION["id"] . "'";
 

@@ -6,16 +6,13 @@
 
 
 <?php
-    session_start();
-
-    # Set the $page variable to be that of the packages page.  The orders page itself
-    # does not appear in the navigation menu as the user should not navigate directly to
-    # the orders page
+    # Note that global.php contains the session_start() command so that the $_SESSION
+    # variables can be accessed by this page
     $page = 2;
     include('../../inc/global.php');
 
     # Include the Customer class definition
-    include("../inc/classes/customer.php");
+    include("../../inc/classes/Customer.php");
 
     # The user should be logged in to reach this page.  In case the user has somehow
     # reached this page without logging in, set $_SESSION["ordererror"] and return to the
@@ -132,19 +129,19 @@
                   <label for="province">Province</label>
                   <select id="province" name="province" class="form-control">
                     <option>Choose Province</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="AB" ? "selected":""); ?>>AB</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="BC" ? "selected":""); ?>>BC</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="MB" ? "selected":""); ?>>MB</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="NB" ? "selected":""); ?>>NB</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="NL" ? "selected":""); ?>>NL</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="NS" ? "selected":""); ?>>NS</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="NT" ? "selected":""); ?>>NT</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="NU" ? "selected":""); ?>>NU</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="ON" ? "selected":""); ?>>ON</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="PE" ? "selected":""); ?>>PE</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="QC" ? "selected":""); ?>>QC</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="SK" ? "selected":""); ?>>SK</option>
-                    <option <?php echo ($customer.GetInfo("CustProv")=="YT" ? "selected":""); ?>>YT</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="AB" ? "selected":""); ?>>AB</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="BC" ? "selected":""); ?>>BC</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="MB" ? "selected":""); ?>>MB</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="NB" ? "selected":""); ?>>NB</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="NL" ? "selected":""); ?>>NL</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="NS" ? "selected":""); ?>>NS</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="NT" ? "selected":""); ?>>NT</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="NU" ? "selected":""); ?>>NU</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="ON" ? "selected":""); ?>>ON</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="PE" ? "selected":""); ?>>PE</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="QC" ? "selected":""); ?>>QC</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="SK" ? "selected":""); ?>>SK</option>
+                    <option <?php echo ($customer->getInfo("CustProv")=="YT" ? "selected":""); ?>>YT</option>
                   </select>
                 </div>
                 <div class="form-group col-md-2">
@@ -169,7 +166,7 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="email">Email<sup>*</sup></label>
-                  <input type="email" class="form-control" id="email" name="email" value="<?php echo $customer->getInfo('Email'); ?>">
+                  <input type="email" class="form-control" id="email" name="email" value="<?php echo $customer->getInfo('CustEmail'); ?>">
                 </div>
               </div>
 
@@ -186,6 +183,7 @@
 
       <?php include('../../inc/javascript.php'); ?>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+      <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
       <script>
 
@@ -194,16 +192,24 @@
         $('#lastname').popover({content: "Please enter your last name", placement: "top", trigger: "focus"});
         $('#address').popover({content: "Please enter your address", placement: "top", trigger: "focus"});
         $('#city').popover({content: "Please enter your city", placement: "top", trigger: "focus"});
-        $('#province').popover({content: "Please select your province", placement: "bottom", trigger: "focus"});
+        $('#province').popover({content: "Please select your province", placement: "top", trigger: "focus"});
         $('#postalcode').popover({content: "Please enter your postal code as A1A 1A1", placement: "top", trigger: "focus"});
         $('#country').popover({content: "Please enter your country", placement: "top", trigger: "focus"});
         $('#homephone').popover({content: "Please enter your home phone number as a 10 digit number", placement: "top", trigger: "focus"});
         $('#businessphone').popover({content: "Please enter your business phone number as a 10 digit number", placement: "top", trigger: "focus"});
         $('#email').popover({content: "Please enter your email address", placement: "top", trigger: "focus"});
 
+        $('#homephone').mask('1 (000) 000-0000', {'translation': {0: {pattern: /[0-9]/}}});
+        $('#businessphone').mask('1 (000) 000-0000', {'translation': {0: {pattern: /[0-9]/}}});
+
         // The postal code should be in the form A1A 1A1
         $.validator.methods.postalcode = function( value, element ) {
             return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
+        }
+
+        // Provide a custom method to validate the phone number with the mask
+        $.validator.methods.phone = function( value, element ) {
+            return this.optional( element ) || /^1 \(\d{3}\) \d{3}-\d{4}$/.test( value );
         }
 
         $('#customerform').validate({
@@ -218,14 +224,10 @@
               postalcode: true
             },
             businessphone: {
-              minlength: 10,
-              maxlength: 10,
-              digits: true
+              phone: true
             },
             homephone: {
-              minlength: 10,
-              maxlength: 10,
-              digits: true
+              phone: true
             },
             email: {
               required: true,
@@ -237,14 +239,10 @@
               postalcode: "Postal code should be in the form A1A 1A1"
             },
             businessphone: {
-              minlength: "Business phone number should be 10 digits",
-              maxlength: "Business phone number should be 10 digits",
-              digits: "Business phone number should contain only digits"
+              phone: "Enter digits only for the home phone number"
             },
             homephone: {
-              minlength: "Home phone number should be 10 digits",
-              maxlength: "Home phone number should be 10 digits",
-              digits: "Home phone number should contain only digits"
+              phone: "Enter digits only for the business phone number"
             },
             email: {
               email: "Please enter a valid email address"
