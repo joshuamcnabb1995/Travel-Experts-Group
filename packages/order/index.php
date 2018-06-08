@@ -19,16 +19,17 @@ the orders page -->
     <title>Order</title>
     <?php include('../../inc/css.php'); ?>
     <link rel="stylesheet" href="order.css" />
-</head>
+  </head>
 
-<body>
+  <body>
 
-  <?php include('../../inc/navigation.php'); ?>
+    <?php include('../../inc/navigation.php'); ?>
 
-  <!-- Need to populate the form based on the customer data (if the customer is logged in)
-  and with the selected package.  Need to add field in form to show the selected package
-  plus a progra-generating booking number.  The customer must add the number of travellers. -->
+    <!-- Need to populate the form based on the customer data (if the customer is logged in)
+    and with the selected package.  Need to add field in form to show the selected package
+    plus a program-generated booking number.  The customer must add the number of travellers. -->
 
+<<<<<<< HEAD
   <div class="container" style="margin-top:80px; margin-bottom:80px;">
 
     <?php
@@ -134,114 +135,221 @@ the orders page -->
               <label for="em">Email<sup>*</sup></label>
               <input type="email" class="form-control" id="em" name="em">
             </div>
-          </div>
-
-          <div class="form-group">
-              <input type="submit" name="booktrip" class="btn btn-primary" value="Book Trip">
-              <input type="button" class="btn btn-default" value="Cancel" onclick="window.location.href='../index.php'">
-            </div>
-
-        </form>
+=======
+    <div class="container" style="margin-top:80px; margin-bottom:80px;">
 
       <?php
-            include('../../inc/database.php');
+        # This section of PHP code retrieves and displays the package details for the
+        # customer's order
+        include('../../inc/database.php');
 
-            if (isset($_POST["booktrip"])) {
+        # The packageId and the number of travellers have been passed from the packages
+        # page in $_POST.  Use packageId to obtain the package details from the database
+        # and use the number of travellers to calculate the total cost.
 
-              # Add a record in the customer table for the customer, if it does not already exists
+        # The package id and number of travellers have been placed in $_POST when the
+        # order button is clicked on the packages page.  Save these into $_SESSION variables
+        # so that they are readily accessible to processorder.php.
+        $_SESSION["id"] = $_POST["id"];
+        $_SESSION["quantity"] = $_POST["quantity"];
 
-              # Add a record to the booking table
-
-              # Print a message to indicate a successful or failed booking
-              echo "<br><p>hello</p><br>";
-            }
-      ?>
-
-      <!-- Only show the following if user is not logged in -->
-      <p>Already have an account? <a href="../../login/index.php">Login here</a>.</p>
-    </div>
-  </div>
-</div>
-
-<?php include('../../inc/javascript.php'); ?>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-
-<script>
-
-  $(document).ready(function(){
-      $('#fn').popover({content: "Please enter your first name", placement: "top", trigger: "focus"});
-      $('#ln').popover({content: "Please enter your last name", placement: "top", trigger: "focus"});
-      $('#ad').popover({content: "Please enter your address", placement: "top", trigger: "focus"});
-      $('#ct').popover({content: "Please enter your city", placement: "top", trigger: "focus"});
-      $('#pv').popover({content: "Please select your province", placement: "bottom", trigger: "focus"});
-      $('#pc').popover({content: "Please enter your postal code as A1A 1A1", placement: "top", trigger: "focus"});
-      $('#cn').popover({content: "Please enter your country", placement: "top", trigger: "focus"});
-      $('#hp').popover({content: "Please enter your home phone number as a 10 digit number", placement: "top", trigger: "focus"});
-      $('#bp').popover({content: "Please enter your business phone number as a 10 digit number", placement: "top", trigger: "focus"});
-      $('#em').popover({content: "Please enter your email address", placement: "top", trigger: "focus"});
-      $('#id').popover({content: "Please choose a user ID containing only letters and numbers", placement: "top", trigger: "focus"});
-      $('#p1').popover({content: "Please choose a password", placement: "top", trigger: "focus"});
-      $('#p2').popover({content: "Please re-enter the password", placement: "top", trigger: "focus"});
-
-      // The postal code should be in the form A1A 1A1
-      $.validator.methods.postalcode = function( value, element ) {
-          return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
-      }
-
-      $('#customerform').validate({
-        rules: {
-          fn: {
-            required: true
-          },
-          ln: {
-            required: true
-          },
-          pc: {
-            postalcode: true
-          },
-          bp: {
-            minlength: 10,
-            maxlength: 10,
-            digits: true
-          },
-          hp: {
-            minlength: 10,
-            maxlength: 10,
-            digits: true
-          },
-          em: {
-            required: true,
-            email: true
-          }
-        },
-        messages: {
-          pc: {
-            postalcode: "Postal code should be in the form A1A 1A1"
-          },
-          bp: {
-            minlength: "Business phone number should be 10 digits",
-            maxlength: "Business phone number should be 10 digits",
-            digits: "Business phone number should contain only digits"
-          },
-          hp: {
-            minlength: "Home phone number should be 10 digits",
-            maxlength: "Home phone number should be 10 digits",
-            digits: "Home phone number should contain only digits"
-          },
-          em: {
-            email: "Please enter a valid email address"
-          }
+        # Do some basic error checking.  Ensure that the package id exists in the $database
+        # and the number of travellers is > 0.  In case of an error, set the $_SESSION["ordererror"]
+        # variable and return to the packages page
+        if (($_SESSION["quantity"] < 1)) {
+          $_SESSION["ordererror"] = true;
+          header("Location:../index.php");
+          exit();
         }
+
+        $sql = "SELECT * FROM packages where PackageId = " . "'" . $_SESSION["id"] . "'";
+        $result = $database->query($sql);
+
+        if (!$result) {
+          $_SESSION["ordererror"] = true;
+          header("Location:../index.php");
+          exit();
+        }
+        else {
+          # On success, display the order details for the user to review before
+          # filling out the form.
+          # Note that only one row will be returned from the query to the packages table.
+          $row = $result->fetch();
+          echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
+          echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
+          echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
+          echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
+          printf("<b>Cost per Person:  $%9.2f</b><br>", $row["PkgBasePrice"]);
+          echo "<b>Number of Travellers: </b>" . $_SESSION["quantity"] . "<br><br>";
+
+          printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["quantity"]);
+        }
+        ?>
+
+        <div class="card">
+          <div class="card-header">
+            <h5>Package Booking</h5>
+>>>>>>> Corinne
+          </div>
+          <div class="card-body">
+            <p class="card-text"><h6>Please complete this form to make a booking</h6></p>
+            <br>
+
+            <!-- If the customer is logged in, auto-populate the input fields in the form with
+            the customer data obtained from the database. -->
+            <form id="customerform" action="processorder.php" method="post">
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="firstname">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
+                  <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $customer->getInfo('CustFirstName'); ?>">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="lastname">Last Name<sup>*</sup></small></label>
+                  <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $customer->getInfo('CustLastName'); ?>">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="<?php echo $customer->getInfo('CustAddress'); ?>">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="ct">City</label>
+                  <input type="text" class="form-control" id="city" name="city" value="<?php echo $customer->getInfo('CustCity'); ?>">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="province">Province</label>
+                  <select id="province" name="province" class="form-control">
+                    <option>Choose Province</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="AB") ? "selected":""; ?>>AB</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="BC") ? "selected":""; ?>>BC</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="MB") ? "selected":""; ?>>MB</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NB") ? "selected":""; ?>>NB</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NL") ? "selected":""; ?>>NL</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NS") ? "selected":""; ?>>NS</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NT") ? "selected":""; ?>>NT</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="NU") ? "selected":""; ?>>NU</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="ON") ? "selected":""; ?>>ON</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="PE") ? "selected":""; ?>>PE</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="QC") ? "selected":""; ?>>QC</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="SK") ? "selected":""; ?>>SK</option>
+                    <option <?php echo ($customer->getInfo('CustProvince') =="YT") ? "selected":""; ?>>YT</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="postalcode">Postal Code</label>
+                  <input type="text" class="form-control" id="postalcode" name="postalcode" value="<?php echo $customer->getInfo('CustPostal'); ?>">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" class="form-control" id="country" name="country" value="<?php echo $customer->getInfo('CustCountry'); ?>">
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="homephone">Home Phone</label>
+                  <input type="tel" class="form-control" id="homephone" name="homephone" value="<?php echo $customer->getInfo('CustHomePhone'); ?>">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="businessphone">Business Phone</label>
+                  <input type="tel" class="form-control" id="businessphone" name="businessphone" value="<?php echo $customer->getInfo('CustBusPhone'); ?>">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="email">Email<sup>*</sup></label>
+                  <input type="email" class="form-control" id="email" name="email" value="<?php echo $customer->getInfo('CustEmail'); ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <input type="submit" name="booktrip" class="btn btn-primary" value="Book Trip">
+                <input type="button" class="btn btn-default" value="Cancel" onclick="window.location.href='../index.php'">
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      <?php include('../../inc/javascript.php'); ?>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+
+      <script>
+
+      $(document).ready(function(){
+        $('#firstname').popover({content: "Please enter your first name", placement: "top", trigger: "focus"});
+        $('#lastname').popover({content: "Please enter your last name", placement: "top", trigger: "focus"});
+        $('#address').popover({content: "Please enter your address", placement: "top", trigger: "focus"});
+        $('#city').popover({content: "Please enter your city", placement: "top", trigger: "focus"});
+        $('#province').popover({content: "Please select your province", placement: "bottom", trigger: "focus"});
+        $('#postalcode').popover({content: "Please enter your postal code as A1A 1A1", placement: "top", trigger: "focus"});
+        $('#country').popover({content: "Please enter your country", placement: "top", trigger: "focus"});
+        $('#homephone').popover({content: "Please enter your home phone number as a 10 digit number", placement: "top", trigger: "focus"});
+        $('#businessphone').popover({content: "Please enter your business phone number as a 10 digit number", placement: "top", trigger: "focus"});
+        $('#email').popover({content: "Please enter your email address", placement: "top", trigger: "focus"});
+
+        // The postal code should be in the form A1A 1A1
+        $.validator.methods.postalcode = function( value, element ) {
+           return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
+        }
+
+        $('#customerform').validate({
+          rules: {
+            firstname: {
+              required: true
+            },
+            lastname: {
+              required: true
+            },
+            postalcode: {
+              postalcode: true
+            },
+            businessphone: {
+              minlength: 10,
+              maxlength: 10,
+              digits: true
+            },
+            homephone: {
+              minlength: 10,
+              maxlength: 10,
+              digits: true
+            },
+            email: {
+              required: true,
+              email: true
+            }
+          },
+          messages: {
+            postalcode: {
+              postalcode: "Postal code should be in the form A1A 1A1"
+            },
+            businessphone: {
+              minlength: "Business phone number should be 10 digits",
+              maxlength: "Business phone number should be 10 digits",
+              digits: "Business phone number should contain only digits"
+            },
+            homephone: {
+              minlength: "Home phone number should be 10 digits",
+              maxlength: "Home phone number should be 10 digits",
+              digits: "Home phone number should contain only digits"
+            },
+            email: {
+              email: "Please enter a valid email address"
+            }
+          }
+        });
       });
-    });
 
-  </script>
+    </script>
 
-  <!-- Mark the bottom of the page so that, when the page is reloaded after a submit, it reloads with the
+    <!-- Mark the bottom of the page so that, when the page is reloaded after a submit, it reloads with the
   		bottom of the page and buttons showing.  Refer to action="" for the form above. -->
-  <a name="bottomOfPage"></a>
+    <a name="bottomOfPage"></a>
 
-  <?php include('../../inc/footer.php'); ?>
+    <?php include('../../inc/footer.php'); ?>
 
-</body>
+  </body>
 </html>
