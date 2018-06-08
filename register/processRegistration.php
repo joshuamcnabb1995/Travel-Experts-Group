@@ -132,8 +132,11 @@
         $addUser->execute([$firstname, $lastname, $address, $city, $province, $postalcode, $country, $homephone,
                           $businessphone, $email, $username, $password, $uid]);
 
-        if($addUser->errorCode() == 0) // Check for errors
-            header('location: login.php'); // Redirect to login page if the query went through successfully (replace with code to log the user in)
+        if($addUser->errorCode() == 0) { // Check for errors
+            // If the query went through successfully and a new customer was created, log that customer in so they don't have to do it themselves
+            setcookie('uid', $uid, strtotime('+1 year'), '/', 'localhost', false, true); // Set cookie to expire in 1 year
+            header('Location: ../');
+        }
 
         else
             echo 'Unfortunately, a new customer account couldn\'t be created. We have sent this error to our IT Department and are working hard to solve it.'; // Otherwise, show an error
