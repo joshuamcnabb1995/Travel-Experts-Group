@@ -21,7 +21,7 @@
     // Function to handle error creation to reduce repetition
     function generateError($field, $errorMessage)
     {
-        $_SESSION[$field . 'Error'] = $errorMessage; // Store the error message as a session so it can be viewed on the registration page
+        $_SESSION[$field . 'Error_register'] = $errorMessage; // Store the error message as a session so it can be viewed on the registration page
         global $formErrors; // Declare the variable as global so it can be accessed outside the function
         $formErrors += 1; // Add a new error everytime the function runs
     }
@@ -29,7 +29,7 @@
     // Loop through all the form elements and save them as variables and sessions
     foreach($registrationForm as $key => $value) {
         $$key = $value; // Store each form value as a variable based on the key in the POST array ($username, $email, etc.)
-        $_SESSION[$key] = trim($value); // Remove whitespace from beginning and end of each form value and store it as a session so the user doesn't have to enter their information again
+        $_SESSION['register_' . $key] = trim($value); // Remove whitespace from beginning and end of each form value and store it as a session so the user doesn't have to enter their information again
     }
 
     // Validate first name
@@ -124,7 +124,7 @@
 
     // Check form errors before inserting in database
     if($formErrors == 0) {
-        $uid = md5(openssl_random_pseudo_bytes(32));
+        $uid = md5(openssl_random_pseudo_bytes(32)); // Randomly generated, cryptographically secure UID
         $passwordOptions = [ 'cost' => 13 ]; // Make the password somewhat difficult to crack
         $password = password_hash($password, PASSWORD_BCRYPT, $passwordOptions); // Hash the password with Bcrypt so it's more secure than a plaintext password
 
