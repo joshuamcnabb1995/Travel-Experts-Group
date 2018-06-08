@@ -18,121 +18,36 @@
                 <div class="album py-5">
                     <div class="container">
                         <div class="row">
-                        <?php
-                            $currentDate = date('Y-m-d h:i:s');
-                            $packages = $database->query("SELECT * FROM packages WHERE PkgEndDate > '$currentDate' ORDER BY PackageId");
+                            <?php
+                                $currentDate = date('Y-m-d h:i:s');
+                                $packages = $database->query("SELECT * FROM packages WHERE PkgEndDate > '$currentDate' ORDER BY PackageId");
 
-                            foreach($packages as $result) {
-                            ?>
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
+                                if($packages->rowCount() == 0)
+                                    echo '<h5 style="margin:6px 6px 12px 12px;">No packages yet. Please check back later.</h5>';
+
+                                else {
+                                    foreach($packages as $row) {
+                                ?>
+                                <div class="col-md-4">
+                                    <div class="card mb-4 box-shadow">
+                                        <a href="package.php?id=<?php echo $row['PackageId']; ?>"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package<?php echo $row['PackageId']; ?>.jpg" data-holder-rendered="true"></a>
+                                        <div class="card-body">
+                                            <h5 class="card-title"><?php echo $row['PkgName']; ?></h5>
+                                            <p class="card-text"><?php echo $row['PkgDesc']; ?></p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.location.href='package.php?id=<?php echo $row['PackageId']; ?>'">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
+                                                </div>
                                             </div>
+                                            <?php if(packageEndingSoon($row['PkgEndDate'])) echo '<div style="margin-top:10px;margin-bottom:-10px;font-weight:bold;color:red;">Ending soon...</div>'; ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php
+                            <?php
+                                }
                             }
-                        ?>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package2.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package3.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package1.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package2.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card mb-4 box-shadow">
-                                    <a href="package.php?id=1"><img class="card-img-top" style="height: 225px; width: 100%; display: block;" src="../img/packages/package3.jpg" data-holder-rendered="true"></a>
-                                    <div class="card-body">
-                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis...</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary">View More &nbsp;<i class="fa fa-chevron-circle-right"></i></button>
-                                                <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            ?>
                         </div>
                     </div>
                 </div>

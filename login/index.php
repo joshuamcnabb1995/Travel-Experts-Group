@@ -121,6 +121,7 @@ $page = 5;
         </form>
       </div>
     </div>
+</div>
   <?php include('../inc/javascript.php'); ?>
   <?php include('../inc/footer.php'); ?>
 </body>

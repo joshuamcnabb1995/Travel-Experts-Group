@@ -1,6 +1,6 @@
 /* Joshua */
 html { position: relative; min-height: 100%; }
-body { margin-bottom: 60px; }
+body { /*margin-bottom: 60px; Height of the footer */ }
 #divider {
     background: #fff;
     height: 40px;
@@ -13,7 +13,9 @@ body { margin-bottom: 60px; }
 .jumbotron { padding: 1rem 0.75rem 0.5rem 0.75rem; }
 .album { padding-top: 0 !important; }
 
-#packagesContainer, #package { margin: 80px auto; }
+#packagesContainer, #package { margin: 80px auto 25px auto; }
+#packageWarning { margin-top: 80px; margin-bottom: -55px; }
+#registrationFormError { margin-top: -10px; margin-bottom: 20px; }
 #availablePackages { margin-bottom: 20px; }
 #availablePackages .album { margin-top: 10px; padding-bottom: 0 !important; }
 #availablePackages .pagination {
@@ -23,12 +25,182 @@ body { margin-bottom: 60px; }
 
 #package img { height: 375px; }
 
-.footer {
+/* https://bootsnipp.com/snippets/featured/services-section-using-bootstrap-4 */
+section .section-title{
+	text-align:center;
+	color:#212529;
+	margin-bottom:50px;
+}
+#what-we-do{
+	background:#ffffff;
+}
+#what-we-do .card{
+	padding: 1rem!important;
+	border: none;
+	margin-bottom:1rem;
+	-webkit-transition: .5s all ease;
+	-moz-transition: .5s all ease;
+	transition: .5s all ease;
+}
+#what-we-do .card:hover{
+	-webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+	-moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+	box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+}
+#what-we-do .card .card-block{
+	padding-left: 50px;
+    position: relative;
+}
+#what-we-do .card .card-block a{
+	color: #007bff !important;
+	font-weight:700;
+	text-decoration:none;
+}
+#what-we-do .card .card-block a i{
+	display:none;
+
+}
+#what-we-do .card:hover .card-block a i{
+	display:inline-block;
+	font-weight:700;
+
+}
+#what-we-do .card .card-block:before{
+	font-family: FontAwesome;
+    position: absolute;
+    font-size: 39px;
+    color: #007bff;
+    left: 0;
+	-webkit-transition: -webkit-transform .2s ease-in-out;
+    transition:transform .2s ease-in-out;
+}
+#what-we-do .card .block-1:before{
+    content: "\f0e7";
+}
+#what-we-do .card .block-2:before{
+    content: "\f0eb";
+}
+#what-we-do .card .block-3:before{
+    content: "\f00c";
+}
+#what-we-do .card .block-4:before{
+    content: "\f209";
+}
+#what-we-do .card .block-5:before{
+    content: "\f0a1";
+}
+#what-we-do .card .block-6:before{
+    content: "\f218";
+}
+#what-we-do .card:hover .card-block:before{
+	-webkit-transform: rotate(360deg);
+	transform: rotate(360deg);
+	-webkit-transition: .5s all ease;
+	-moz-transition: .5s all ease;
+	transition: .5s all ease;
+}
+/* https://bootsnipp.com/snippets/featured/services-section-using-bootstrap-4 */
+
+/* https://bootsnipp.com/snippets/featured/simple-card-alerts */
+.notice {
+    padding: 10px;
+    background-color: #fafafa;
+    border-left: 6px solid #7f7f84;
+    border-top: 1px solid #bbb !important;
+    border-right: 1px solid #bbb !important;
+    border-bottom: 1px solid #bbb !important;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
+    -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
+    box-shadow: 0 5px 8px -6px rgba(0,0,0,.3);
+    border-radius: 2px;
+    font-weight: bold !important;
+}
+.notice-sm {
+    padding: 10px;
+    font-size: 80%;
+}
+.notice-lg {
+    padding: 35px;
+    font-size: large;
+}
+.notice-success {
+    border-color: #80D651;
+}
+.notice-success>strong {
+    color: #80D651;
+}
+.notice-info {
+    border-color: #45ABCD;
+}
+.notice-info>strong {
+    color: #45ABCD;
+}
+.notice-warning {
+    border-color: #FEAF20;
+}
+.notice-warning>strong {
+    color: #FEAF20;
+}
+.notice-danger {
+    border-color: #d73814;
+}
+.notice-danger>strong {
+    color: #d73814;
+}
+/* https://bootsnipp.com/snippets/featured/simple-card-alerts */
+
+/*.footer {
     background: #e9ecef;
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 60px;
     line-height: 60px;
+}*/
+
+/* https://bootsnipp.com/snippets/MRaea */
+.footer {
+    background: #ddd none repeat scroll 0 0;
+    border-top: 1px solid #aaa;
+    margin: 0;
+    padding: 20px 0;
 }
+.footer_dv {
+    width: 100%;
+}
+.footer_dv h4, .footer_dv h5:not(#companyTitle) {
+    color: #444;
+    border-bottom: 1px solid #777;
+    padding-bottom: 8px;
+}
+.footer_dv p { color: #555 !important; }
+.footer_dv h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+.footer_dv ul {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+.footer_dv ul li:first-child {
+    border-top: medium none;
+    box-shadow: none;
+}
+.footer_dv ul li {
+    border-top: 1px solid #fff;
+    box-shadow: 0 -1px 0 #999;
+    color: #555;
+    padding: 5px 0;
+}
+.footer_dv p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 0 15px;
+    text-align: justify;
+}
+/* https://bootsnipp.com/snippets/MRaea */
 /* Joshua */

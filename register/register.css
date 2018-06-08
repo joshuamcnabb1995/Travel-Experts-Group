@@ -1,6 +1,8 @@
+/* Corinne */
+.error { color: red; margin-top: 6px; }
+/* Corinne */
 
-/* Corinne */
-.error {
-  color: red;
-}
-/* Corinne */
+/* Joshua */
+font[color='red'] {font-weight: bold; }
+label { font-weight: bold; }
+/* Joshua */
