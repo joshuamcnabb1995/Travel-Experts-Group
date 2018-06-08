@@ -40,7 +40,7 @@
         <section>
             <div class="container">
                 <h4>Recent Bookings</h4>
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Booking #</th>
@@ -51,15 +51,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <a href="#">
-                            <tr>
-                                <th scope="row">WDR898</th>
-                                <td>June 8th, 2018</td>
-                                <td>Vancouver</td>
-                                <td>Business</td>
-                                <td><span style="color:green;font-weight:bold;">$450.00</span></td>
-                            </tr>
-                        </a>
+                        <tr>
+                            <th scope="row">WDR898</th>
+                            <td>June 8th, 2018</td>
+                            <td>Vancouver</td>
+                            <td>Business</td>
+                            <td><span style="color:green;font-weight:bold;">$450.00</span></td>
+                        </tr>
 
                         <tr>
                             <th scope="row">1ZVSMY</th>
