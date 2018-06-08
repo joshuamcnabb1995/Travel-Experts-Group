@@ -1,46 +1,36 @@
 <!--
    Author:  Corinne Mullan
-   Date:  06-04-2018
+   Date:  06-08-2018
    Description:  Create the form and PHP script to handle package bookings.
 -->
 
-<<<<<<< HEAD
-<!-- Set the $page variable to be that of the packages page.  The orders page itself
-does not appear in the navigation menu as the user should not navigate directly to
-the orders page -->
-<?php
-=======
 
 <?php
-    # Allow access to the $_SESSION[] variables
     session_start();
 
     # Set the $page variable to be that of the packages page.  The orders page itself
     # does not appear in the navigation menu as the user should not navigate directly to
     # the orders page
->>>>>>> Corinne
     $page = 2;
     include('../../inc/global.php');
 
     # Include the Customer class definition
     include("../inc/classes/customer.php");
 
-    # The user is only able to access the orders page from the packages page when they
-    # are logged in.  Confirm here that the user is logged in just in case they have managed
-    # to access the orders page directly, rather than through the packages page.  If no user
-    # is logged in, set $_SESSIOn["ordererror"] and return to the packages page.
-    $loggedin = isset($_COOKIE["uid"]);
+    # The user should be logged in to reach this page.  In case the user has somehow
+    # reached this page without logging in, set $_SESSION["ordererror"] and return to the
+    # packages page.
 
+    $loggedin = isset($_COOKIE["uid"]);
     if (!$loggedin) {
-      $_SESSION["ordererror"] = true;
-      header("Location:../index.php");
-      exit();
+        $_SESSION["odererror"] = true;
+        header("Location:../index.php");
+        exit();
     }
 
-    # The Customer class constructor will create a customer object and populate it with the
-    # data from the customers table in the database when it is passed a userid
+    # Create a Customer object.  The customer constructor will create a customer object and
+    # populate it with the data from the customers table in the database when it is passed a userid
     $customer = new Customer($_COOKIE["uid"]);
-
 ?>
 
 <!DOCTYPE html>
@@ -56,117 +46,8 @@ the orders page -->
 
     <?php include('../../inc/navigation.php'); ?>
 
-    <!-- Need to populate the form based on the customer data (if the customer is logged in)
-    and with the selected package.  Need to add field in form to show the selected package
-    plus a program-generated booking number.  The customer must add the number of travellers. -->
+    <!-- Populate the form based on the customer data  and with the selected package. -->
 
-<<<<<<< HEAD
-  <div class="container" style="margin-top:80px; margin-bottom:80px;">
-
-    <?php
-      # This section of PHP code retrieves and displays the package details for the
-      # customer's order
-      include('../../inc/database.php');
-
-      $currentDate = date('Y-m-d h:i:s');
-      echo "<b>Booking Date: </b>" . $currentDate . "<br>";
-
-      # The packageId and the number of travellers have been passed from the packages
-      # page in $_POST.  Use packageId to obtain the package details from the database
-      # and use the number of travellers to calculate the total cost.
-
-      # CHANGE WHEN WORKING
-      #$pkgId = $_POST["packageId"];
-      $pkgId = 1;
-      $numTravellers = 2;
-
-      $sql = "SELECT * FROM packages where PackageId = " . "'" . $pkgId . "'";
-      $result = $database->query($sql);
-
-      # Only one row will be returned
-      $row = $result->fetch();
-      echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
-      echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
-      echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
-      echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
-      printf("<b>Cost per Person:  $%9.2f</b><br><br>", $row["PkgBasePrice"]);
-
-      # DO I NEED TO ADD COMMISSION TO BASE PRICE??
-      printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $numTravellers);
-    ?>
-
-    <div class="card">
-      <div class="card-header">
-        <h5>Package Booking</h5>
-      </div>
-      <div class="card-body">
-        <p class="card-text"><h6>Please complete this form to make a booking</h6></p>
-        <br>
-
-        <form id="customerform" action="processorder.php" method="post">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="fn">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
-              <input type="text" class="form-control" id="fn" name="fn">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="ln">Last Name<sup>*</sup></small></label>
-              <input type="text" class="form-control" id="ln" name="ln">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="ad">Address</label>
-            <input type="text" class="form-control" id="ad" name="ad">
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="ct">City</label>
-              <input type="text" class="form-control" id="ct" name="ct">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="pv">Province</label>
-              <select id="pv" class="form-control">
-                <option selected>Choose Province</option>
-                <option>AB</option>
-                <option>BC</option>
-                <option>MB</option>
-                <option>NS</option>
-                <option>NB</option>
-                <option>NL</option>
-                <option>NT</option>
-                <option>NU</option>
-                <option>ON</option>
-                <option>PE</option>
-                <option>QC</option>
-                <option>SK</option>
-                <option>YT</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2">
-              <label for="pc">Postal Code</label>
-              <input type="text" class="form-control" id="pc" name="pc">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="cn">Country</label>
-            <input type="text" class="form-control" id="cn" name="cn" default="Canada">
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="hp">Home Phone</label>
-              <input type="tel" class="form-control" id="hp" name="hp">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="bp">Business Phone</label>
-              <input type="tel" class="form-control" id="bp" name="bp">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="em">Email<sup>*</sup></label>
-              <input type="email" class="form-control" id="em" name="em">
-            </div>
-=======
     <div class="container" style="margin-top:80px; margin-bottom:80px;">
 
       <?php
@@ -220,16 +101,14 @@ the orders page -->
         <div class="card">
           <div class="card-header">
             <h5>Package Booking</h5>
->>>>>>> Corinne
           </div>
           <div class="card-body">
             <p class="card-text"><h6>Please complete this form to make a booking</h6></p>
             <br>
 
-            <!-- If the customer is logged in, auto-populate the input fields in the form with
-            the customer data obtained from the database. -->
+            <!-- Auto-populate the input fields in the form with the customer data obtained
+            from the database. -->
             <form id="customerform" action="processorder.php" method="post">
-
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="firstname">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
@@ -246,26 +125,26 @@ the orders page -->
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="ct">City</label>
+                  <label for="city">City</label>
                   <input type="text" class="form-control" id="city" name="city" value="<?php echo $customer->getInfo('CustCity'); ?>">
                 </div>
                 <div class="form-group col-md-4">
                   <label for="province">Province</label>
                   <select id="province" name="province" class="form-control">
                     <option>Choose Province</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="AB") ? "selected":""; ?>>AB</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="BC") ? "selected":""; ?>>BC</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="MB") ? "selected":""; ?>>MB</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="NB") ? "selected":""; ?>>NB</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="NL") ? "selected":""; ?>>NL</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="NS") ? "selected":""; ?>>NS</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="NT") ? "selected":""; ?>>NT</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="NU") ? "selected":""; ?>>NU</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="ON") ? "selected":""; ?>>ON</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="PE") ? "selected":""; ?>>PE</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="QC") ? "selected":""; ?>>QC</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="SK") ? "selected":""; ?>>SK</option>
-                    <option <?php echo ($customer->getInfo('CustProvince') =="YT") ? "selected":""; ?>>YT</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="AB" ? "selected":""); ?>>AB</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="BC" ? "selected":""); ?>>BC</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="MB" ? "selected":""); ?>>MB</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="NB" ? "selected":""); ?>>NB</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="NL" ? "selected":""); ?>>NL</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="NS" ? "selected":""); ?>>NS</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="NT" ? "selected":""); ?>>NT</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="NU" ? "selected":""); ?>>NU</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="ON" ? "selected":""); ?>>ON</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="PE" ? "selected":""); ?>>PE</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="QC" ? "selected":""); ?>>QC</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="SK" ? "selected":""); ?>>SK</option>
+                    <option <?php echo ($customer.GetInfo("CustProv")=="YT" ? "selected":""); ?>>YT</option>
                   </select>
                 </div>
                 <div class="form-group col-md-2">
@@ -290,7 +169,7 @@ the orders page -->
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="email">Email<sup>*</sup></label>
-                  <input type="email" class="form-control" id="email" name="email" value="<?php echo $customer->getInfo('CustEmail'); ?>">
+                  <input type="email" class="form-control" id="email" name="email" value="<?php echo $customer->getInfo('Email'); ?>">
                 </div>
               </div>
 
@@ -324,7 +203,7 @@ the orders page -->
 
         // The postal code should be in the form A1A 1A1
         $.validator.methods.postalcode = function( value, element ) {
-           return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
+            return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
         }
 
         $('#customerform').validate({

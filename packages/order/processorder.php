@@ -1,16 +1,14 @@
 <!--
    Author:  Corinne Mullan
-   Date:  06-05-2018
+   Date:  06-08-2018
    Description:  Process the package booking request.
 -->
-<<<<<<< HEAD
-=======
 
 <?php
+  # Start the session so that the $_SESSION[] variables can be accessed
   session_start();
 ?>
 
->>>>>>> Corinne
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,23 +21,9 @@
   <body>
     <div class="container" style="margin-top:80px; margin-bottom:80px;">
       <?php
+        # Include the php for the database connection
         include('../../inc/database.php');
 
-<<<<<<< HEAD
-        #$pkgId = $_POST["packageId"];
-        #$bookingDate = $_POST["bookingDate"];
-
-        // Insert a record into the customer table if necessary
-        // ADD if (!logged in) {}
-
-        #$result->query($sql);
-        $result=false;
-
-
-
-        // Insert a record into the booking table
-
-=======
         # Include the Customer class definition
         include("../inc/classes/customer.php");
 
@@ -83,16 +67,12 @@
         $sql .= " VALUES (" . $values . ")";
 
         $result = $database->query($sql);
->>>>>>> Corinne
 
         # If the database was updated successfully, give a success message and provide a link
         # for the user to return to the main Travel Experts page
         if ($result) {
           echo "<h1>Your vacation was booked successfully!</h1><br><br>";
-<<<<<<< HEAD
-=======
           echo "Your booking number is " .  $bookingNumber . "<br><br>";
->>>>>>> Corinne
           echo "<a href='../../index.php'>Click to return to Travel Experts main page</a>";
         }
         # If there was an error updating the database, give an error message and provide
@@ -102,14 +82,8 @@
           echo "<a href='index.php#bottomOfPage'>Click to return to orders page</a>";
         }
 
-<<<<<<< HEAD
-        ?>
-
-      </div>
-=======
       ?>
 
     </div>
->>>>>>> Corinne
   </body>
 </html>
