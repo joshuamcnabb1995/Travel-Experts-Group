@@ -41,6 +41,10 @@
         # to add a record to the customers table in the database, as this was done
         # during the registration process.
 
+        # For this prototype, do not update the customers table with any changes the
+        # customer has made to their information on the orders page.  This would need
+        # to be addressed in a real system however.
+
         # Create a customer object from the userid
         $customer = new Customer($_COOKIE["uid"]);
 
