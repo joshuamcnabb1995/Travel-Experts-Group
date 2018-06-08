@@ -34,7 +34,7 @@ Message:	'.$_POST['message'].'
     $mail->MsgHTML($message);
 
     // Send To
-    $mail->AddAddress("recipientemail@gmail.com", "TravelExpert"); // Where to send it - Recipient
+    $mail->AddAddress("rozaroza.nh@gmail.com", "TravelExpert"); // Where to send it - Recipient
     $result = $mail->Send();		// Send!
 	$message = $result ? 'Successfully Sent!' : 'Sending Failed!';
 	unset($mail);
