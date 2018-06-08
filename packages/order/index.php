@@ -23,6 +23,7 @@
     # to access the orders page directly, rather than through the packages page.  If no user
     # is logged in, set $_SESSIOn["ordererror"] and return to the packages page.
     $loggedin = isset($_COOKIE["uid"]);
+
     if (!$loggedin) {
       $_SESSION["ordererror"] = true;
       header("Location:../index.php");
@@ -113,6 +114,7 @@
             <!-- If the customer is logged in, auto-populate the input fields in the form with
             the customer data obtained from the database. -->
             <form id="customerform" action="processorder.php" method="post">
+
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="firstname">First Name<sup>*</sup>&nbsp;<small class="text-muted">&nbsp;Required</small></label>
@@ -207,7 +209,7 @@
 
         // The postal code should be in the form A1A 1A1
         $.validator.methods.postalcode = function( value, element ) {
-            return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
+           return this.optional( element ) || /^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/.test( value );
         }
 
         $('#customerform').validate({
