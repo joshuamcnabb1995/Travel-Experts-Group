@@ -20,7 +20,7 @@
 
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading"><?php echo (isset($_COOKIE['uid']) ? 'Welcome back, ' . $Customer->getInfo('CustFirstName') : 'Welcome to Travel Experts'); ?></h1>
+                <h1 class="jumbotron-heading" style="margin-bottom:15px;"><?php echo (isset($_COOKIE['uid']) ? 'Welcome back, ' . $Customer->getInfo('CustFirstName') : 'Welcome to Travel Experts'); ?></h1>
                 <?php echo (isset($_COOKIE['uid']) ? '' : '<p class="lead text-muted">We may be a small company, but we have large ideas when it comes to travel, specifically how we can save you time and money.</p>'); ?>
                 <p>
                     <?php
