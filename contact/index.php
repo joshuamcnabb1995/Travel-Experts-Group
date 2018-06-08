@@ -32,8 +32,8 @@
                                   <label for="form_email">Email *</label>
                                   <input id="email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
 
-                                  <label for="form_phone">Phone</label>
-                                  <input id="phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                  <label for="form_phone">Phone(xxx.xxx.xxxx)</label>
+                                  <input id="phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone" pattern="^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$">
 
                                   <label for="form_message">Message *</label>
                                   <textarea id="message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please,leave us a message."></textarea></br>
