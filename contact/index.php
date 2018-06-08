@@ -44,6 +44,64 @@
                                 </form>
                         </div>
 
+
+                        <?php include('../../inc/javascript.php'); ?>
+                        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+                        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+                        <script>
+
+                        $(document).ready(function(){
+                          $('#firstname').popover({content: "Please enter your first name", placement: "top", trigger: "focus"});
+                          $('#lastname').popover({content: "Please enter your last name", placement: "top", trigger: "focus"});
+                          $('#phone').popover({content: "Please enter your phone number as a 10 digit number", placement: "top", trigger: "focus"});
+                          $('#email').popover({content: "Please enter your email address", placement: "top", trigger: "focus"});
+                          }
+
+                          // Provide a custom method to validate the phone number with the mask
+                          $.validator.methods.phone = function( value, element ) {
+                              return this.optional( element ) || /^1 \(\d{3}\) \d{3}-\d{4}$/.test( value );
+                          }
+
+                          $('#customerform').validate({
+                            rules: {
+                              firstname: {
+                                required: true
+                              },
+                              lastname: {
+                                required: true
+                              },
+                              postalcode: {
+                                postalcode: true
+                              },
+                              businessphone: {
+                                phone: true
+                              },
+                              homephone: {
+                                phone: true
+                              },
+                              email: {
+                                required: true,
+                                email: true
+                              }
+                            },
+
+                            messages: {
+
+                              phone: {
+                                phone: "Enter digits only for phone number"
+                              },
+                              email: {
+                                email: "Please enter a valid email address"
+                              }
+                            }
+                          });
+                        });
+
+                        </script>
+
+
+
                           <!-----the map-->
                         <div class="col"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d321303.3268281848!2d-114.35433369398585!3d51.01278199569303!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x537170039f843fd5%3A0x266d3bb1b652b63a!2sCalgary%2C+AB!5e0!3m2!1sen!2sca!4v1527883694526" width="350" height="550" frameborder="0" style="border:0" allowfullscreen></iframe></div>
                         <div class="col">
