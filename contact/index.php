@@ -32,7 +32,7 @@
                                   <label for="form_email">Email *</label>
                                   <input id="email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
 
-                                  <label for="form_phone">Phone(xxx.xxx.xxxx)</label>
+                                  <label for="form_phone">Phone * (xxx.xxx.xxxx)</label>
                                   <input id="phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone" pattern="^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$">
 
                                   <label for="form_message">Message *</label>
