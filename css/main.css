@@ -202,5 +202,17 @@ section .section-title{
     margin: 0 0 15px;
     text-align: justify;
 }
+
+.social-media { margin-bottom: 10px; }
+.social-media i {
+    color: #333;
+    font-size: 35px;
+    margin-right: 5px;
+}
+.social-media a:hover i { cursor: pointer; }
+#facebook-icon:hover i { color: #3B5998; }
+#twitter-icon:hover i { color: #1CA1F2; }
+#instagram-icon:hover i { color: #CA2F9A; }
+#youtube-icon:hover i { color: #FE0000; }
 /* https://bootsnipp.com/snippets/MRaea */
 /* Joshua */
