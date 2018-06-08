@@ -32,9 +32,9 @@ Message:	'.$_POST['message'].'
     $mail->AddReplyTo($_POST['email'], $_POST['fname'], $_POST['surname']);
     $mail->Subject = "New Contact Form Message";      // Subject
     $mail->MsgHTML($message);
- 
+
     // Send To
-    $mail->AddAddress("rozaroza.nh@gmail.com", "TravelExpert"); // Where to send it - Recipient
+    $mail->AddAddress("recipientemail@gmail.com", "TravelExpert"); // Where to send it - Recipient
     $result = $mail->Send();		// Send!
 	$message = $result ? 'Successfully Sent!' : 'Sending Failed!';
 	unset($mail);
