@@ -4,17 +4,48 @@
    Description:  Create the form and PHP script to handle package bookings.
 -->
 
+<<<<<<< HEAD
 <!-- Set the $page variable to be that of the packages page.  The orders page itself
 does not appear in the navigation menu as the user should not navigate directly to
 the orders page -->
 <?php
+=======
+
+<?php
+    # Allow access to the $_SESSION[] variables
+    session_start();
+
+    # Set the $page variable to be that of the packages page.  The orders page itself
+    # does not appear in the navigation menu as the user should not navigate directly to
+    # the orders page
+>>>>>>> Corinne
     $page = 2;
     include('../../inc/global.php');
+
+    # Include the Customer class definition
+    include("../inc/classes/customer.php");
+
+    # The user is only able to access the orders page from the packages page when they
+    # are logged in.  Confirm here that the user is logged in just in case they have managed
+    # to access the orders page directly, rather than through the packages page.  If no user
+    # is logged in, set $_SESSIOn["ordererror"] and return to the packages page.
+    $loggedin = isset($_COOKIE["uid"]);
+
+    if (!$loggedin) {
+      $_SESSION["ordererror"] = true;
+      header("Location:../index.php");
+      exit();
+    }
+
+    # The Customer class constructor will create a customer object and populate it with the
+    # data from the customers table in the database when it is passed a userid
+    $customer = new Customer($_COOKIE["uid"]);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Order</title>
     <?php include('../../inc/css.php'); ?>
