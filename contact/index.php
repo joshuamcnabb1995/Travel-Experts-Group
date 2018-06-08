@@ -20,7 +20,7 @@
                         <p class="lead">Please send us a message and one of our agents will get in touch with you as soon as possible.</p>
 
                                 <!--------------the form-->
-                                <form id="contact-form" method="post" action="contact.php" role="form">
+                                <form id="contact-form" method="post" action="contact1.php" role="form">
 
                                   <label for="form_name">Firstname *</label>
                                   <input id="form_name" type="text" name="fname" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
