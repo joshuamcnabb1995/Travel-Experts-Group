@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
     // Database connection details with PDO
     $host = '127.0.0.1';
     $db   = 'travelexpertsgroup';
@@ -15,7 +14,6 @@
     ];
 
     $database = new PDO($dsn, $user, $pass, $opt);
-=======
   $host = '127.0.0.1';
   $db = 'travelexpertsgroup';
   $user = 'root';
@@ -30,4 +28,3 @@
   ];
 
   $database = new PDO($dsn, $user, $pass, $opt);
->>>>>>> Sara

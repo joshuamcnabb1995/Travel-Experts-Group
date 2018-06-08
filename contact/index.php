@@ -3,13 +3,10 @@
         <title>Contact Form</title>
         <?php include('../inc/css.php'); ?>
         <style>
-<<<<<<< HEAD
         .col-8{ background: rgb(29, 198, 193); }
         .col-4{ background-color: rgb(129, 212, 165);}
-=======
         .col-5{ background:rgb(208, 242, 233); }
         .col{ background-color: rgb(129, 212, 165);}
->>>>>>> Sara
         </style>
     </head>
     <body>
