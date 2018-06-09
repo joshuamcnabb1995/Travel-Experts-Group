@@ -48,65 +48,74 @@
         # The customer will always be logged in at this point, so there is no need
         # to add a new record to the customers table in the database, as this was done
         # during the registration process.  However, the customers table may need to
-        # be updated with any information changed by the user on the orders form.
-        if ($_POST["firstname"] != $customer->getInfo("CustFirstName")) {
-            $sql = "UPDATE customers SET CustFirstName = '" . $_POST["firstname"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        # be updated with any information changed by the user on the orders form.  Go
+        # through the input fields to see if any have changed, and create a SQL query
+        # to update the modified fields.
+
+        # The following section of code has been designed to minimize the number of
+        # database operations performed.  A single SQL statement is generated to update
+        # all the modified customer fields at once.
+        $updatestring = "";
+
+        $existingValue = $customer->getInfo("CustFirstName");
+        if ($_POST["firstname"] != $existingValue) {
+              $updatestring .= ", CustFirstName = '" . $_POST["firstname"] . "'";
         }
 
-        if ($result && ($_POST["lastname"] != $customer->getInfo("CustLastName"))) {
-            $sql = "UPDATE customers SET CustLastName = '" . $_POST["lastname"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustLastName");
+        if ($_POST["lastname"] != $existingValue) {
+              $updatestring .= ", CustLastName = '" . $_POST["lastname"] . "'";
         }
 
-        if ($result && ($_POST["address"] != $customer->getInfo("CustAddress"))) {
-            $sql = "UPDATE customers SET CustAddress = '" . $_POST["address"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustAddress");
+        if ($_POST["address"] != $existingValue) {
+              $updatestring .= ", CustAddress = '" . $_POST["address"] . "'";
         }
 
-        if ($result && ($_POST["city"] != $customer->getInfo("CustCity"))) {
-            $sql = "UPDATE customers SET CustCity = '" . $_POST["city"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustCity");
+        if ($_POST["city"] != $existingValue) {
+              $updatestring .= ", CustCity = '" . $_POST["city"] . "'";
         }
 
-        if ($result && ($_POST["province"] != $customer->getInfo("CustProv"))) {
-            $sql = "UPDATE customers SET CustProv = '" . $_POST["province"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustProv");
+        if ($_POST["province"] != $existingValue) {
+              $updatestring .= ", CustProv = '" . $_POST["province"] . "'";
         }
 
-        if ($result && ($_POST["postalcode"] != $customer->getInfo("CustPostal"))) {
-            $sql = "UPDATE customers SET CustPostal = '" . $_POST["postalcode"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustPostal");
+        if ($_POST["postalcode"] != $existingValue) {
+              $updatestring .= ", CustPostal = '" . $_POST["postalcode"] . "'";
         }
 
-        if ($result && ($_POST["country"] != $customer->getInfo("CustCountry"))) {
-            $sql = "UPDATE customers SET CustCountry = '" . $_POST["country"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustCountry");
+        if ($_POST["country"] != $existingValue) {
+              $updatestring .= ", CustCountry = '" . $_POST["country"] . "'";
         }
 
-        if ($result && ($_POST["homephone"] != $customer->getInfo("CustHomePhone"))) {
-            $sql = "UPDATE customers SET CustHomePhone = '" . $_POST["homephone"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustHomePhone");
+        if ($_POST["homephone"] != $existingValue) {
+              $updatestring .= ", CustHomePhone = '" . $_POST["homephone"] . "'";
         }
 
-        if ($result && ($_POST["businessphone"] != $customer->getInfo("CustBusPhone"))) {
-            $sql = "UPDATE customers SET CustBusPhone = '" . $_POST["businessphone"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustBusPhone");
+        if ($_POST["businessphone"] != $existingValue) {
+              $updatestring .= ", CustBusPhone = '" . $_POST["businessphone"] . "'";
         }
 
-        if ($result && ($_POST["email"] != $customer->getInfo("CustEmail"))) {
-            $sql = "UPDATE customers SET CustEmail = '" . $_POST["email"];
-            $sql .= "' WHERE CustUID = '" . $customer->uid . "'";
-            $result = $database->query($sql);
+        $existingValue = $customer->getInfo("CustEmail");
+        if ($_POST["email"] != $existingValue) {
+              $updatestring .= ", CustEmail = '" . $_POST["email"] . "'";
+        }
+
+        # If there are fields in the customers table to update, create and execute
+        # the SQL query
+        if (strlen($updatestring) > 0) {
+          # Remove the extraneous comma and space at the start of the string
+          $updatestring = substr($updatestring, 2, strlen($updatestring)-2);
+
+          $sql = "UPDATE customers SET " . $updatestring;
+          $sql .= " WHERE CustUID = '" . $customer->uid . "'";
+          $result = $database->query($sql);
         }
 
 
