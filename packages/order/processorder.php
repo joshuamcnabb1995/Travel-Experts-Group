@@ -48,7 +48,7 @@
         # The customer will always be logged in at this point, so there is no need
         # to add a new record to the customers table in the database, as this was done
         # during the registration process.  However, the customers table may need to
-        # be updated with any information changed by the user on the orders form.
+        # be updated with any information changed by the user on the orders form.        
         if ($_POST["firstname"] != $customer->getInfo("CustFirstName")) {
             $sql = "UPDATE customers SET CustFirstName = '" . $_POST["firstname"];
             $sql .= "' WHERE CustUID = '" . $customer->uid . "'";

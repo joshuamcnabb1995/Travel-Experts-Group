@@ -14,6 +14,11 @@
             <li class="nav-item<?php if($page == 4) echo ' active'; ?>"><a class="nav-link" href="<?php if(!$page == 4) echo '#'; else echo '/travel-experts-group/login'; ?>">Login</a></li>
             <li class="nav-item<?php if($page == 5) echo ' active'; ?>"><a class="nav-link" href="<?php if(!$page == 5) echo '#'; else echo '/travel-experts-group/register'; ?>">Register</a></li>
         </ul>
-        <?php } ?>
+    <?php } else { ?>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user-circle"></i>&nbsp; My Account</a></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-sign-out"></i>&nbsp; Logout</a></a></li>
+        </ul>
+    <?php } ?>
     </div>
 </nav>

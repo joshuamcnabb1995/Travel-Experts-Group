@@ -8,9 +8,9 @@
         Modified by: Joshua McNabb
         Date: 06-05-2018 - 06-07-2018
         Work Done: Converted MySQLi to PDO
-                     Added sessions with the text of the error messages
-                     Added additional validation for all form fields
-                     Added function to generate errors
+                   Added sessions with the text of the error messages
+                   Added additional validation for all form fields (Everything except username, email, password and confirm)
+                   Added function to generate errors
     */
 
     include('../inc/global.php'); // Database configuration and other checks
@@ -124,9 +124,9 @@
 
     // Check form errors before inserting in database
     if($formErrors == 0) {
-        $uid = md5(openssl_random_pseudo_bytes(32)); // Randomly generated, cryptographically secure UID
-        $passwordOptions = [ 'cost' => 13 ]; // Make the password somewhat difficult to crack
-        $password = password_hash($password, PASSWORD_BCRYPT, $passwordOptions); // Hash the password with Bcrypt so it's more secure than a plaintext password
+        $uid = md5(openssl_random_pseudo_bytes(32)); // Randomly generated, cryptographically secure UID (Joshua)
+        $passwordOptions = [ 'cost' => 13 ]; // Make the password somewhat difficult to crack (Joshua)
+        $password = password_hash($password, PASSWORD_BCRYPT, $passwordOptions); // Hash the password with Bcrypt so it's more secure than a plaintext password (Joshua)
 
         $addUser = $database->prepare("INSERT INTO customers(CustFirstName, CustLastName, CustAddress, CustCity, CustProv, CustPostal, CustCountry, CustHomePhone, CustBusPhone, CustEmail, CustUsername, CustPassword, CustUID) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $addUser->execute([$firstname, $lastname, $address, $city, $province, $postalcode, $country, $homephone,

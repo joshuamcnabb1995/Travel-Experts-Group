@@ -25,7 +25,7 @@
                 <p>
                     <?php
                         if(isset($_COOKIE['uid']))
-                            echo '<a href="#" class="btn btn-success"><i class="fa fa-user-circle"></i>&nbsp; View Account</a> &nbsp; <a href="#" class="btn btn-secondary"><i class="fa fa-sign-out"></i>&nbsp; Logout</a>';
+                            echo '<a href="#" class="btn btn-success"><i class="fa fa-user-circle"></i>&nbsp; My Account</a> &nbsp; <a href="#" class="btn btn-secondary"><i class="fa fa-sign-out"></i>&nbsp; Logout</a>';
 
                         else
                             echo '<a href="#" class="btn btn-primary my-2"><i class="fa fa-info-circle"></i>&nbsp; Find Out More</a> &nbsp; <a href="register" class="btn btn-success my-2"><i class="fa fa-user-plus"></i>&nbsp; Create a Free Account</a>';

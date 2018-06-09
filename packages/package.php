@@ -4,6 +4,28 @@
 
     $getPackage = $database->query("SELECT * FROM packages WHERE PackageId = '" . $_GET['id'] . "'");
     $package = $getPackage->fetch();
+
+    $packageStartDate = date('Y-m-d', strtotime($package['PkgStartDate'])); // Display only the date
+    $packageStartTime = date('g:iA', strtotime($package['PkgStartDate'])); // Display only the time
+
+    if(packageStarted($package['PkgStartDate'])) {
+        if($packageStartDate = date('Y-m-d')) echo 'Today at ' . $packageStartTime;
+
+        else $packageStartText = 'Tomorrow at ' . $packageStartTime;
+    }
+
+    $packageStartText = $packageStartDate;
+
+    $packageEndDate = date('Y-m-d', strtotime($package['PkgEndDate'])); // Display only the date
+    $packageEndTime = date('g:iA', strtotime($package['PkgEndDate'])); // Display only the time
+
+    if(packageEndingSoon($package['PkgEndDate'])) {
+        if($packageEndDate = date('Y-m-d')) echo 'Today at ' . $packageEndTime;
+
+        else $packageEndText = 'Tomorrow at ' . $packageEndTime;
+    }
+
+    else $packageEndText = $packageEndDate;
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,7 +39,7 @@
         <?php include('../inc/navigation.php'); ?>
 
         <div class="container">
-            <?php if(packageEndingSoon($package['PkgEndDate'])) echo '<div id="packageWarning" class="notice notice-warning"><strong>Notice:</strong>&nbsp; Package ending soon!</div>'; ?>
+            <?php if(packageEndingSoon($package['PkgStartDate'])) echo '<div id="packageWarning" class="notice notice-warning"><strong>Notice:</strong>&nbsp; Package availability ending soon!</div>'; ?>
             <div id="package" class="card">
 			<div class="container-fliud">
 				<div class="wrapper row">
@@ -41,20 +63,11 @@
 						</div>
 						<p class="product-description"><?php echo $package['PkgDesc']; ?></p>
                         <div id="dates" class="row">
-                            <div class="col"><i class="fa fa-calendar"></i> Started: <?php echo date('Y-m-d', strtotime($package['PkgStartDate'])); ?></div>
-                            <div class="col<?php if(packageEndingSoon($package['PkgEndDate'])) echo ' expiring'; ?>"><i class="fa fa-calendar"></i> Ends:
-                            <?php
-                                $packageDate = date('Y-m-d', strtotime($package['PkgEndDate'])); // Display only the date
-                                $packageTime = date('g:iA', strtotime($package['PkgEndDate'])); // Display only the time
-
-                                if(packageEndingSoon($package['PkgEndDate'])) {
-                                    if($packageDate = date('Y-m-d')) echo 'Today at ' . $packageTime;
-
-                                    else echo 'Tomorrow at ' . $packageTime;
-                                }
-
-                                else echo $packageDate;
-                            ?>
+                            <div class="col<?php echo (packageStarted($package['PkgEndDate']) ? 'expiring' : ''); ?>">
+                                <i class="fa fa-calendar"></i> Starts: <?php echo $packageStartText; ?>
+                            </div>
+                            <div class="col">
+                                <i class="fa fa-calendar"></i> Ends: <?php echo $packageEndText; ?>
                             </div>
                         </div>
                         <h5 class="price">current price: <s>$5200.00</s> <span>$<?php echo number_format($package['PkgBasePrice'], 2, '.', ''); ?></span></h5>

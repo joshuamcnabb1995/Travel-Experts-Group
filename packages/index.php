@@ -20,7 +20,7 @@
                         <div class="row">
                             <?php
                                 $currentDate = date('Y-m-d h:i:s');
-                                $packages = $database->query("SELECT * FROM packages WHERE PkgEndDate > '$currentDate' ORDER BY PackageId");
+                                $packages = $database->query("SELECT * FROM packages WHERE PkgStartDate > '$currentDate' ORDER BY PackageId");
 
                                 if($packages->rowCount() == 0)
                                     echo '<h5 style="margin:6px 6px 12px 12px;">No packages yet. Please check back later.</h5>';
@@ -40,7 +40,7 @@
                                                     <button type="button" class="btn btn-sm btn-outline-success">Book This Destination &nbsp;<i class="fa fa-cart-plus"></i></button>
                                                 </div>
                                             </div>
-                                            <?php if(packageEndingSoon($row['PkgEndDate'])) echo '<div style="margin-top:10px;margin-bottom:-10px;font-weight:bold;color:red;">Ending soon...</div>'; ?>
+                                            <?php if(packageEndingSoon($row['PkgStartDate'])) echo '<div style="margin-top:10px;margin-bottom:-10px;font-weight:bold;color:red;">Ending soon...</div>'; ?>
                                         </div>
                                     </div>
                                 </div>

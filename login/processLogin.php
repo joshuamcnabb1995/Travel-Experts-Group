@@ -3,6 +3,12 @@
       Author: Safiq Momin
       Date of creation: 06-01-2018
       Description: The file contains php code to verify different conditions of username and password field in relation with the database
+
+      Modified By: Joshua McNabb
+      Date: 06-08-2018 - 06-10-2018
+      Work done: Converted variables to sessions to be able to carry the error messages over to the main page
+                 Added generateError function to reduce code repetition
+                 Looped through the $_POST array and set variables
     */
 
     include('../inc/global.php');
@@ -42,6 +48,7 @@
         $getPassword->execute([$email]);
         $databasePassword = $getPassword->fetch();
 
+        // Joshua
         if(!password_verify($password, $databasePassword['CustPassword'])) generateError('password', 'The password doesn\'t match the one on your account.');
     }
     // Validate password
