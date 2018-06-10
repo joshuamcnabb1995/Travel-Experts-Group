@@ -1,6 +1,7 @@
+
+<!-- Student Name: S-Sara Nejad-Hashemi -->
+
  <?php
-
-
       $from = '<demo@domain.com>';
       $sendTo = '<sara_n_h@yahoo.com>';
       $subject = 'New message from contact form';
@@ -13,7 +14,6 @@
       //-------------
       try
       {
-
         if(count($_POST) == 0) echo'Form is empty';
 
         $emailText = "You have a new message from your contact form\n=============================\n";
@@ -41,14 +41,10 @@
     {
       $responseArray = array('type' => 'danger', 'message' => $errorMessage);
     }
-
-
     // -----
       if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
           $encoded = json_encode($responseArray);
-
           header('Content-Type: application/json');
-
           echo $encoded;
         }
       // else just display the message

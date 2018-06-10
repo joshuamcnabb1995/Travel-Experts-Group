@@ -21,7 +21,8 @@
     $loggedin = isset($_COOKIE["uid"]);
     if (!$loggedin) {
         $_SESSION["odererror"] = true;
-        header("Location:../index.php");
+        //header("Location:../index.php");
+        echo 1;
         exit();
     }
 
@@ -59,7 +60,6 @@
         # The package id and number of travellers have been placed in $_POST when the
         # order button is clicked on the packages page.  Save these into $_SESSION variables
         # so that they are readily accessible to processorder.php.
-        $_SESSION["id"] = $_POST["id"];
         $_SESSION["quantity"] = $_POST["quantity"];
 
         # Do some basic error checking.  Ensure that the package id exists in the $database
@@ -67,7 +67,8 @@
         # variable and return to the packages page
         if (($_SESSION["quantity"] < 1)) {
           $_SESSION["ordererror"] = true;
-          header("Location:../index.php");
+          //header("Location:../index.php");
+          echo 2;
           exit();
         }
 
@@ -76,7 +77,8 @@
 
         if (!$result) {
           $_SESSION["ordererror"] = true;
-          header("Location:../index.php");
+          //header("Location:../index.php");
+          echo 3;
           exit();
         }
         else {
@@ -84,20 +86,30 @@
           # filling out the form.
           # Note that only one row will be returned from the query to the packages table.
           $row = $result->fetch();
-          echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
-          echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
-          echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
-          echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
-          printf("<b>Cost per Person:  $%9.2f</b><br>", $row["PkgBasePrice"]);
-          echo "<b>Number of Travellers: </b>" . $_SESSION["quantity"] . "<br><br>";
-
-          printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["quantity"]);
-        }
         ?>
+        <div class="card">
+            <div class="card-header">
+                <h5>Order Details</h5>
+            </div>
+
+            <div class="card-body" style="padding:10px;">
+                <?php
+                  echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
+                  echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
+                  echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
+                  echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
+                  printf("<b>Cost per Person:  $%9.2f</b><br>", $row["PkgBasePrice"]);
+                  echo "<b>Number of Travellers: </b>" . $_SESSION["quantity"] . "<br><br>";
+
+                  printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["quantity"]);
+                }
+                ?>
+            </div>
+        </div><br />
 
         <div class="card">
           <div class="card-header">
-            <h5>Package Booking</h5>
+            <h5>Booking Details</h5>
           </div>
           <div class="card-body">
             <p class="card-text"><h6>Please complete this form to make a booking</h6></p>

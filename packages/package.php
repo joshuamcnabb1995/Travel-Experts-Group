@@ -26,6 +26,8 @@
     }
 
     else $packageEndText = $packageEndDate;
+
+    $_SESSION['id'] = $package['PackageId']; // Package id
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,12 +73,12 @@
                             </div>
                         </div>
                         <h5 class="price">current price: <s>$5200.00</s> <span>$<?php echo number_format($package['PkgBasePrice'], 2, '.', ''); ?></span></h5>
-                        <form id="quantity">
-                            Quantity:<br />
-                            <input class="form-control" type="number" name="quantity" step="1" min=1 max=10 value=0 >
-                            <input type="hidden" name="packageId" value="<?php echo $package['PackageId']; ?>" />
+                        <form id="quantity" action="order/index.php" method="POST">
+                            Number of Travelers:<br />
+                            <input class="form-control" type="number" name="quantity" step="1" min=1 max=10 value=1 >
+
+                            <input class="btn btn-success" type="submit" value="Book Destination" style="margin-top:10px;" />
                         </form>
-                        <div class="action"><button class="add-to-cart btn btn-success" type="button'"><i class="fa fa-cart-plus"></i>&nbsp; Book Destination</button></div>
 					</div>
 				</div>
 			</div>
