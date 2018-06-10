@@ -6,9 +6,9 @@
         <title>Contact Form</title>
         <?php include('../inc/css.php'); ?>
         <style>
-          .col-5{ background:rgb(208, 242, 233); }
-          .col{ background-color: rgb(123, 223, 184);}
-          .col-6{background:rgb(143, 222, 240);}
+          .col-6{ background:rgb(208, 242, 233); }
+          .col-3{ background-color: rgb(123, 223, 184);}
+          .col{background:rgb(143, 222, 240);}
         </style>
     </head>
     <body>
@@ -18,7 +18,7 @@
           <?php include('../inc/footer.php'); ?>
                 <div class="container">
                   <div class="row">
-                    <div class="col-5">
+                    <div class="col-6">
                       <h1>Contact form</h1>
                         <p class="lead">Please send us a message and one of our agents will get back to you as soon as possible.</p>
 
@@ -42,9 +42,9 @@
                         </div>
 
                         <!---the map-->
-                        <div class="col"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2508.3847274439972!2d-114.09056018453519!3d51.04598357956202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53716fe76e972489%3A0x149461cedf5b7c5b!2s1155+8+Ave+SW%2C+Calgary%2C+AB!5e0!3m2!1sen!2sca!4v1528609261988" width="350" height="550" frameborder="0" style="border:0" allowfullscreen></iframe></div>
+                        <div class="col-3"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2508.3847274439972!2d-114.09056018453519!3d51.04598357956202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53716fe76e972489%3A0x149461cedf5b7c5b!2s1155+8+Ave+SW%2C+Calgary%2C+AB!5e0!3m2!1sen!2sca!4v1528609261988" width="350" height="550" frameborder="0" style="border:0" allowfullscreen></iframe></div>
 
-                        <div class="col">
+                        <div class="col-3">
                         <!---Agencies contact info-->
                             <?php
                               include('../inc/database.php');
@@ -55,33 +55,26 @@
                                 }
                             ?>
                       </div>
-                      </div>
+                    </div>
 
-                      <div class="row">
-                        <div class="col-6">
-                          <!-- Agents Contact info -->
+
+                    <!-- Agents Contact info -->
+                    <div class="row">
                           <?php
                             include('../inc/database.php');
-                            $sql = $database->query("SELECT AgtFirstName, AgtMiddleInitial, AgtLastName, AgtBusPhone, AgtEmail  FROM agents WHERE AgencyId=1");
-                            echo "<br><i><h5> Calgary Office:<h5></i>";
-                            foreach($sql as $row) {
-                              echo "<br><h6>".$row["AgtFirstName"]." ".$row["AgtMiddleInitial"]." ".$row["AgtLastName"]."</h6></b>Phone: ".$row["AgtBusPhone"]."</br>E-Mail: ".$row["AgtEmail"]."</br>";
-                              }
+                            $ArrAgencyId= $database->query("SELECT AgencyId, AgncyCity FROM agencies");
+                            $i=0;
+                            foreach( $ArrAgencyId as $row){
+                                $i++;
+                                $sql = $database->query("SELECT AgtFirstName, AgtMiddleInitial, AgtLastName, AgtBusPhone, AgtEmail  FROM agents WHERE AgencyId=$i");
+                                echo  '<div class="col">';
+                                  echo "<br><i><h5>".$row["AgncyCity"]." Office:<h5></i>";
+                                  foreach($sql as $row) {
+                                      echo "<br><h6>".$row["AgtFirstName"]." ".$row["AgtMiddleInitial"]." ".$row["AgtLastName"]."</h6></b>Phone: ".$row["AgtBusPhone"]."</br>E-Mail: ".$row["AgtEmail"]."</br>";
+                                    }
+                                    echo '</div>';
+                                  }
                           ?>
-                        </div>
-
-                        <div class="col-6">
-                          <!-- Agents Contact info -->
-                          <?php
-                            include('../inc/database.php');
-                            $sql = $database->query("SELECT AgtFirstName, AgtMiddleInitial, AgtLastName, AgtBusPhone, AgtEmail  FROM agents WHERE AgencyId=2 ");
-                            echo "<br><i><h5> Okotoks Office:<h5></i>";
-                            foreach($sql as $row) {
-                              echo "<br><h6>".$row["AgtFirstName"]." ".$row["AgtMiddleInitial"]." ".$row["AgtLastName"]."</h6></b>Phone: ".$row["AgtBusPhone"]."</br>E-Mail: ".$row["AgtEmail"]."</br>";
-
-                              }
-                          ?>
-                      </div>
                     </div>
                   </div>
 
