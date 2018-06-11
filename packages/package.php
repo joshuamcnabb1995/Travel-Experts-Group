@@ -45,7 +45,7 @@
                             <div class="col<?php if(packageEndingSoon($package['PkgEndDate'])) echo ' expiring'; ?>"><i class="fa fa-calendar"></i> Ends:
                             <?php
                                 $packageDate = date('Y-m-d', strtotime($package['PkgEndDate'])); // Display only the date
-                                $packageTime = date('g:ia', strtotime($package['PkgEndDate'])); // Display only the time
+                                $packageTime = date('g:iA', strtotime($package['PkgEndDate'])); // Display only the time
 
                                 if(packageEndingSoon($package['PkgEndDate'])) {
                                     if($packageDate = date('Y-m-d')) echo 'Today at ' . $packageTime;

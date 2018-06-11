@@ -37,6 +37,13 @@
                         1 (403) 271-9873
                     </p>
 
+                    <div class="social-media">
+                        <a id="facebook-icon"><i class="fa fa-facebook-square"></i></a>
+                        <a id="twitter-icon"><i class="fa fa-twitter"></i></a>
+                        <a id="instagram-icon"><i class="fa fa-instagram"></i></a>
+                        <a id="youtube-icon"><i class="fa fa-youtube"></i></a>
+                    </div>
+
                     <a href="/travel-experts-group/contact/"><button class="btn btn-primary"><i class="fa fa-envelope"></i>&nbsp; Send An Email</button></a>
                 </div>
             </div>

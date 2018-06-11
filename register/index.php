@@ -20,19 +20,19 @@
     $page = 5;
 
     // Store error message sessions as variables so they're not called multiple times in the script
-    $firstnameError = (isset($_SESSION['firstnameError']) ? $_SESSION['firstnameError'] : NULL);
-    $lastnameError = (isset($_SESSION['lastnameError']) ? $_SESSION['lastnameError'] : NULL);
-    $addressError = (isset($_SESSION['addressError']) ? $_SESSION['addressError'] : NULL);
-    $cityError = (isset($_SESSION['cityError']) ? $_SESSION['cityError'] : NULL);
-    $provinceError = (isset($_SESSION['provinceError']) ? $_SESSION['provinceError'] : NULL);
-    $postalcodeError = (isset($_SESSION['postalcodeError']) ? $_SESSION['postalcodeError'] : NULL);
-    $countryError = (isset($_SESSION['countryError']) ? $_SESSION['countryError'] : NULL);
-    $homephoneError = (isset($_SESSION['homephoneError']) ? $_SESSION['homephoneError'] : NULL);
-    $businessphoneError = (isset($_SESSION['businessphoneError']) ? $_SESSION['businessphoneError'] : NULL);
-    $emailError = (isset($_SESSION['emailError']) ? $_SESSION['emailError'] : NULL);
-    $usernameError = (isset($_SESSION['usernameError']) ? $_SESSION['usernameError'] : NULL);
-    $passwordError = (isset($_SESSION['passwordError']) ? $_SESSION['passwordError'] : NULL);
-    $confirmError = (isset($_SESSION['confirmError']) ? $_SESSION['confirmError'] : NULL);
+    $firstnameError = (isset($_SESSION['firstnameError_register']) ? $_SESSION['firstnameError_register'] : NULL);
+    $lastnameError = (isset($_SESSION['lastnameError_register']) ? $_SESSION['lastnameError_register'] : NULL);
+    $addressError = (isset($_SESSION['addressError_register']) ? $_SESSION['addressError_register'] : NULL);
+    $cityError = (isset($_SESSION['cityError_register']) ? $_SESSION['cityError_register'] : NULL);
+    $provinceError = (isset($_SESSION['provinceError_register']) ? $_SESSION['provinceError_register'] : NULL);
+    $postalcodeError = (isset($_SESSION['postalcodeError_register']) ? $_SESSION['postalcodeError_register'] : NULL);
+    $countryError = (isset($_SESSION['countryError_register']) ? $_SESSION['countryError_register'] : NULL);
+    $homephoneError = (isset($_SESSION['homephoneError_register']) ? $_SESSION['homephoneError_register'] : NULL);
+    $businessphoneError = (isset($_SESSION['businessphoneError_register']) ? $_SESSION['businessphoneError_register'] : NULL);
+    $emailError = (isset($_SESSION['emailError_register']) ? $_SESSION['emailError_register'] : NULL);
+    $usernameError = (isset($_SESSION['usernameError_register']) ? $_SESSION['usernameError_register'] : NULL);
+    $passwordError = (isset($_SESSION['passwordError_register']) ? $_SESSION['passwordError_register'] : NULL);
+    $confirmError = (isset($_SESSION['confirmError_register']) ? $_SESSION['confirmError_register'] : NULL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,49 +63,49 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="firstname">First Name <font color="red">*</font></label>
-                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="John"<?php if(isset($_SESSION['firstname'])) echo ' value="' . $_SESSION['firstname'] . '"'; ?> />
+                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="John"<?php if(isset($_SESSION['register_firstname'])) echo ' value="' . $_SESSION['register_firstname'] . '"'; ?> />
                                 <span class="error"><?php echo (isset($firstnameError)) ? $firstnameError : ''; ?></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="lastname">Last Name <font color="red">*</font></small></label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Doe"<?php if(isset($_SESSION['lastname'])) echo ' value="' . $_SESSION['lastname'] . '"'; ?> />
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Doe"<?php if(isset($_SESSION['register_lastname'])) echo ' value="' . $_SESSION['register_lastname'] . '"'; ?> />
                                 <span class="error"><?php echo (isset($lastnameError)) ? $lastnameError : ''; ?></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="address" placeholder="12345-Something ST NW"<?php if(isset($_SESSION['address'])) echo ' value="' . $_SESSION['address'] . '"'; ?> />
+                            <input type="text" class="form-control" id="address" name="address" placeholder="12345-Something ST NW"<?php if(isset($_SESSION['register_address'])) echo ' value="' . $_SESSION['register_address'] . '"'; ?> />
                             <span class="error"><?php echo (isset($addressError)) ? $addressError : ''; ?></span>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="city">City</label>
-                                <input type="text" class="form-control" id="city" name="city"<?php if(isset($_SESSION['city'])) echo ' value="' . $_SESSION['city'] . '"'; ?> />
+                                <input type="text" class="form-control" id="city" name="city"<?php if(isset($_SESSION['register_city'])) echo ' value="' . $_SESSION['register_city'] . '"'; ?> />
                                 <span class="error"><?php echo (isset($cityError)) ? $cityError : ''; ?></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="province">Province</label>
                                 <select id="province" name="province" class="form-control">
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'Choose Province' ? ' selected' : ''); ?>>Choose Province</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'AB' ? ' selected' : ''); ?>>AB</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'BC' ? ' selected' : ''); ?>>BC</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'MB' ? ' selected' : ''); ?>>MB</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'NS' ? ' selected' : ''); ?>>NS</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'NB' ? ' selected' : ''); ?>>NB</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'NL' ? ' selected' : ''); ?>>NL</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'NT' ? ' selected' : ''); ?>>NT</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'NU' ? ' selected' : ''); ?>>NU</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'ON' ? ' selected' : ''); ?>>ON</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'PE' ? ' selected' : ''); ?>>PE</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'QC' ? ' selected' : ''); ?>>QC</option>
-                                    <option<?php if(isset($_SESSION['province'])) echo ($_SESSION['province'] == 'SK' ? ' selected' : ''); ?>>SK</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'Choose Province' ? ' selected' : ''); ?>>Choose Province</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'AB' ? ' selected' : ''); ?>>AB</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'BC' ? ' selected' : ''); ?>>BC</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'MB' ? ' selected' : ''); ?>>MB</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'NS' ? ' selected' : ''); ?>>NS</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'NB' ? ' selected' : ''); ?>>NB</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'NL' ? ' selected' : ''); ?>>NL</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'NT' ? ' selected' : ''); ?>>NT</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'NU' ? ' selected' : ''); ?>>NU</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'ON' ? ' selected' : ''); ?>>ON</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'PE' ? ' selected' : ''); ?>>PE</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'QC' ? ' selected' : ''); ?>>QC</option>
+                                    <option<?php if(isset($_SESSION['register_province'])) echo ($_SESSION['province'] == 'SK' ? ' selected' : ''); ?>>SK</option>
                                     <option>YT</option>
                                 </select>
                                 <span class="error"><?php echo (isset($provinceError)) ? $provinceError : ''; ?></span>
                             </div>
                             <div class="form-group col-md-2">
                                 <label for="postalcode">Postal Code</label>
-                                <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="N1N 1N1"<?php if(isset($_SESSION['postalcode'])) echo ' value="' . $_SESSION['postalcode'] . '"'; ?> />
+                                <input type="text" class="form-control" id="postalcode" name="postalcode" placeholder="N1N 1N1"<?php if(isset($_SESSION['register_postalcode'])) echo ' value="' . $_SESSION['register_postalcode'] . '"'; ?> />
                                 <span class="error"><?php echo (isset($postalcodeError)) ? $postalcodeError : ''; ?></span>
                             </div>
                         </div>
@@ -129,12 +129,12 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="homephone">Home Phone</label>
-                                <input type="tel" class="form-control" id="homephone" name="homephone"<?php if(isset($_SESSION['homephone'])) echo ' value="' . $_SESSION['homephone'] . '"'; else echo ' value=1'; ?> />
+                                <input type="tel" class="form-control" id="homephone" name="homephone"<?php if(isset($_SESSION['register_homephone'])) echo ' value="' . $_SESSION['register_homephone'] . '"'; else echo ' value=1'; ?> />
                                 <span class="error"><?php echo (isset($homephoneError)) ? $homephoneError : ''; ?></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="businessphone">Business Phone</label>
-                                <input type="tel" class="form-control" id="businessphone" name="businessphone"<?php if(isset($_SESSION['businessphone'])) echo ' value="' . $_SESSION['businessphone'] . '"'; else echo ' value=1'; ?> />
+                                <input type="tel" class="form-control" id="businessphone" name="businessphone"<?php if(isset($_SESSION['register_businessphone'])) echo ' value="' . $_SESSION['register_businessphone'] . '"'; else echo ' value=1'; ?> />
                                 <span class="error"><?php echo (isset($businessphoneError)) ? $businessphoneError : ''; ?></span>
                             </div>
                         </div>
@@ -143,25 +143,25 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="email">Email <font color="red">*</font></label>
-                                <input type="text" class="form-control" id="email" name="email"<?php if(isset($_SESSION['email'])) echo ' value="' . $_SESSION['email'] . '"'; ?> required />
+                                <input type="text" class="form-control" id="email" name="email"<?php if(isset($_SESSION['register_email'])) echo ' value="' . $_SESSION['register_email'] . '"'; ?> required />
                                 <span class="error"><?php echo (isset($emailError)) ? $emailError : ''; ?></span>
                             </div>
 
                             <div class="form-group col-md-6 <?php echo (!isset($usernameError)) ? 'has-error' : ''; ?>">
                                 <label>Username <font color="red">*</font></label>
-                                <input type="text" name="username" class="form-control"<?php if(isset($_SESSION['username'])) echo ' value="' . $_SESSION['username'] . '"'; ?> required />
+                                <input type="text" name="username" class="form-control"<?php if(isset($_SESSION['register_username'])) echo ' value="' . $_SESSION['register_username'] . '"'; ?> required />
                                 <span class="error"><?php echo (isset($usernameError)) ? $usernameError : ''; ?></span>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 <?php echo (!isset($usernameError)) ? 'has-error' : ''; ?>">
                                 <label>Password <font color="red">*</font></label>
-                                <input type="password" name="password" class="form-control"<?php if(isset($_SESSION['password'])) echo ' value="' . $_SESSION['password'] . '"'; ?> required />
+                                <input type="password" name="password" class="form-control"<?php /*if(isset($_SESSION['password'])) echo ' value="' . $_SESSION['register_password'] . '"';*/ ?> required />
                                 <span class="error"><?php echo (isset($passwordError)) ? $passwordError : ''; ?></span>
                             </div>
                             <div class="form-group col-md-6 <?php echo (!isset($confirmError)) ? 'has-error' : ''; ?>">
                                 <label>Confirm Password <font color="red">*</font></label>
-                                <input type="password" name="confirm" class="form-control"<?php if(isset($_SESSION['confirm'])) echo ' value="' . $_SESSION['confirm'] . '"'; ?> required />
+                                <input type="password" name="confirm" class="form-control"<?php /*if(isset($_SESSION['confirm'])) echo ' value="' . $_SESSION['register_confirm'] . '"';*/ ?> required />
                                 <span class="error"><?php echo (isset($confirmError)) ? $confirmError : ''; ?></span>
                             </div>
                         </div>
