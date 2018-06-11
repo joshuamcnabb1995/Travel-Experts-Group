@@ -14,8 +14,6 @@
     ];
 
     $database = new PDO($dsn, $user, $pass, $opt);
-<<<<<<< HEAD
-=======
   $host = '127.0.0.1';
   $db = 'travelexpertsgroup';
   $user = 'root';
@@ -30,4 +28,3 @@
   ];
 
   $database = new PDO($dsn, $user, $pass, $opt);
->>>>>>> master
