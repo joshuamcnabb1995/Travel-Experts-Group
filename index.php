@@ -51,7 +51,7 @@
                                                   FROM packages, bookings
                                                   WHERE CustomerId = ?
                                                   AND bookings.PackageId = packages.packageId
-                                                  ORDER BY PkgStartDate");
+                                                  ORDER BY PkgStartDate DESC");
                 $getBookings->execute([$Customer->getInfo('CustomerId')]);
 
                 if($getBookings->rowCount() == 0)
