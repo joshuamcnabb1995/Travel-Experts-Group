@@ -106,7 +106,7 @@
     if(empty($username)) generateError('username', 'Please enter a username.');
     else if(strlen($username) < 2 || strlen($username) > 25) generateError('username', 'Username must be between 2 and 25 characters long.');
     else {
-        $getUser = $database->prepare("SELECT id FROM users WHERE username = ?");
+        $getUser = $database->prepare("SELECT CustUsername FROM Customers WHERE CustUsername = ?");
         $getUser->execute([$username]);
 
         if($getUser->rowCount() == 1) generateError('username', 'This username is taken.');

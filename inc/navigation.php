@@ -17,7 +17,7 @@
     <?php } else { ?>
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user-circle"></i>&nbsp; My Account</a></a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-sign-out"></i>&nbsp; Logout</a></a></li>
+            <li class="nav-item"><a class="nav-link" href="/travel-experts-group/logout"><i class="fa fa-sign-out"></i>&nbsp; Logout</a></a></li>
         </ul>
     <?php } ?>
     </div>

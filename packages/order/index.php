@@ -21,8 +21,7 @@
     $loggedin = isset($_COOKIE["uid"]);
     if (!$loggedin) {
         $_SESSION["odererror"] = true;
-        //header("Location:../index.php");
-        echo 1;
+        header("Location:../index.php");
         exit();
     }
 
@@ -60,15 +59,14 @@
         # The package id and number of travellers have been placed in $_POST when the
         # order button is clicked on the packages page.  Save these into $_SESSION variables
         # so that they are readily accessible to processorder.php.
-        $_SESSION["quantity"] = $_POST["quantity"];
+        if(isset($_POST["quantity"])) $_SESSION["quantity"] = $_POST["quantity"];
 
         # Do some basic error checking.  Ensure that the package id exists in the $database
         # and the number of travellers is > 0.  In case of an error, set the $_SESSION["ordererror"]
         # variable and return to the packages page
         if (($_SESSION["quantity"] < 1)) {
           $_SESSION["ordererror"] = true;
-          //header("Location:../index.php");
-          echo 2;
+          header("Location:../index.php");
           exit();
         }
 
@@ -77,8 +75,7 @@
 
         if (!$result) {
           $_SESSION["ordererror"] = true;
-          //header("Location:../index.php");
-          echo 3;
+          header("Location:../index.php");
           exit();
         }
         else {
@@ -94,14 +91,14 @@
 
             <div class="card-body" style="padding:10px;">
                 <?php
-                  echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
-                  echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
-                  echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
-                  echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
-                  printf("<b>Cost per Person:  $%9.2f</b><br>", $row["PkgBasePrice"]);
-                  echo "<b>Number of Travellers: </b>" . $_SESSION["quantity"] . "<br><br>";
-
-                  printf("<b>TOTAL PRICE:  $%9.2f</b><br><br>", $row["PkgBasePrice"] * $_SESSION["quantity"]);
+                    echo "<div style=\"float:left;\"><img src=\"../../img/packages/package" . $row['PackageId'] . ".jpg\" style=\"width:285px;height:200px;margin-right:15px;\" /></div>";
+                    echo "<b>Package Name: </b>" . $row["PkgName"] . "<br>";
+                    echo "<b>Description: </b>" . $row["PkgDesc"] . "<br>";
+                    echo "<b>Start Date: </b>" . $row["PkgStartDate"] . "<br>";
+                    echo "<b>End Date:&nbsp;&nbsp;&nbsp;</b>" . $row["PkgEndDate"] . "<br>";
+                    echo "<b>Cost per Person: <span style=\"color:green;\">$" . number_format($row["PkgBasePrice"], 2, '.', '') . "</span></b><br>";
+                    echo "<b>Number of Travellers: </b>" . $_SESSION["quantity"] . "<br><br>";
+                    echo "<b style=\"color:green;\">TOTAL PRICE: $" . number_format($row["PkgBasePrice"] * $_SESSION["quantity"], 2, '.', '') . "</b><br><br>";
                 }
                 ?>
             </div>
@@ -236,10 +233,8 @@
               postalcode: true
             },
             businessphone: {
-              phone: true
             },
             homephone: {
-              phone: true
             },
             email: {
               required: true,

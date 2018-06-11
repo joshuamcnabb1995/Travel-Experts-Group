@@ -20,7 +20,7 @@
                         <div class="row">
                             <?php
                                 $currentDate = date('Y-m-d h:i:s');
-                                $packages = $database->query("SELECT * FROM packages WHERE PkgStartDate > '$currentDate' ORDER BY PackageId");
+                                $packages = $database->query("SELECT * FROM packages WHERE PkgEndDate >= '$currentDate' ORDER BY PackageId");
 
                                 if($packages->rowCount() == 0)
                                     echo '<h5 style="margin:6px 6px 12px 12px;">No packages yet. Please check back later.</h5>';

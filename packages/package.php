@@ -1,6 +1,9 @@
 <?php
     $page = 2;
     include('../inc/global.php');
+    include('../inc/classes/Customer.php');
+
+    $Customer = new Customer($_COOKIE['uid']);
 
     $getPackage = $database->query("SELECT * FROM packages WHERE PackageId = '" . $_GET['id'] . "'");
     $package = $getPackage->fetch();
@@ -27,6 +30,15 @@
 
     else $packageEndText = $packageEndDate;
 
+    $getBookings = $database->prepare("SELECT BookingId FROM bookings WHERE PackageId = ? AND CustomerId = ?");
+    $getBookings->execute([$package['PackageId'], $Customer->getInfo('CustomerId')]);
+
+    if($getBookings->rowCount() > 0)
+        $packageBooked = TRUE;
+
+    else
+        $packageBooked = FALSE;
+
     $_SESSION['id'] = $package['PackageId']; // Package id
 ?>
 <!DOCTYPE html>
@@ -41,7 +53,12 @@
         <?php include('../inc/navigation.php'); ?>
 
         <div class="container">
-            <?php if(packageEndingSoon($package['PkgStartDate'])) echo '<div id="packageWarning" class="notice notice-warning"><strong>Notice:</strong>&nbsp; Package availability ending soon!</div>'; ?>
+            <?php
+                if(packageEndingSoon($package['PkgStartDate']))
+                    echo '<div id="packageWarning" class="notice notice-warning"><strong>Notice:</strong>&nbsp; Package availability ending soon!</div>';
+
+                if(isset($_SESSION['ordererror'])) echo '<div id="packageWarning" class="notice notice-danger"><strong>Error:</strong>&nbsp; You cannot order this package a second time.</div>';
+            ?>
             <div id="package" class="card">
 			<div class="container-fliud">
 				<div class="wrapper row">
@@ -72,12 +89,16 @@
                                 <i class="fa fa-calendar"></i> Ends: <?php echo $packageEndText; ?>
                             </div>
                         </div>
-                        <h5 class="price">current price: <s>$5200.00</s> <span>$<?php echo number_format($package['PkgBasePrice'], 2, '.', ''); ?></span></h5>
+                        <h5 class="price">current price: <span>$<?php echo number_format($package['PkgBasePrice'], 2, '.', ''); ?></span></h5>
                         <form id="quantity" action="order/index.php" method="POST">
                             Number of Travelers:<br />
                             <input class="form-control" type="number" name="quantity" step="1" min=1 max=10 value=1 >
 
+                            <?php if(!$packageBooked) { ?>
                             <input class="btn btn-success" type="submit" value="Book Destination" style="margin-top:10px;" />
+                            <?php } else { ?>
+                                <input class="btn btn-success" type="submit" value="Destination Already Booked" style="margin-top:10px;" disabled />
+                            <?php } ?>
                         </form>
 					</div>
 				</div>
@@ -89,3 +110,4 @@
         <?php include('../inc/footer.php'); ?>
     </body>
 </html>
+<?php unset($_SESSION['ordererror']); ?>

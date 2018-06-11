@@ -38,7 +38,7 @@
         }
 
         # Create a customer object from the userid
-        $customer = new Customer($_COOKIE["uid"]);
+        $Customer = new Customer($_COOKIE["uid"]);
 
         # $result will capture any errors in the database queries.  Only continue with
         # subsequent database queries if $result is true; i.e., if there have been no
@@ -57,52 +57,52 @@
         # all the modified customer fields at once.
         $updatestring = "";
 
-        $existingValue = $customer->getInfo("CustFirstName");
+        $existingValue = $Customer->getInfo("CustFirstName");
         if ($_POST["firstname"] != $existingValue) {
               $updatestring .= ", CustFirstName = '" . $_POST["firstname"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustLastName");
+        $existingValue = $Customer->getInfo("CustLastName");
         if ($_POST["lastname"] != $existingValue) {
               $updatestring .= ", CustLastName = '" . $_POST["lastname"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustAddress");
+        $existingValue = $Customer->getInfo("CustAddress");
         if ($_POST["address"] != $existingValue) {
               $updatestring .= ", CustAddress = '" . $_POST["address"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustCity");
+        $existingValue = $Customer->getInfo("CustCity");
         if ($_POST["city"] != $existingValue) {
               $updatestring .= ", CustCity = '" . $_POST["city"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustProv");
+        $existingValue = $Customer->getInfo("CustProv");
         if ($_POST["province"] != $existingValue) {
               $updatestring .= ", CustProv = '" . $_POST["province"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustPostal");
+        $existingValue = $Customer->getInfo("CustPostal");
         if ($_POST["postalcode"] != $existingValue) {
               $updatestring .= ", CustPostal = '" . $_POST["postalcode"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustCountry");
+        $existingValue = $Customer->getInfo("CustCountry");
         if ($_POST["country"] != $existingValue) {
               $updatestring .= ", CustCountry = '" . $_POST["country"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustHomePhone");
+        $existingValue = $Customer->getInfo("CustHomePhone");
         if ($_POST["homephone"] != $existingValue) {
               $updatestring .= ", CustHomePhone = '" . $_POST["homephone"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustBusPhone");
+        $existingValue = $Customer->getInfo("CustBusPhone");
         if ($_POST["businessphone"] != $existingValue) {
               $updatestring .= ", CustBusPhone = '" . $_POST["businessphone"] . "'";
         }
 
-        $existingValue = $customer->getInfo("CustEmail");
+        $existingValue = $Customer->getInfo("CustEmail");
         if ($_POST["email"] != $existingValue) {
               $updatestring .= ", CustEmail = '" . $_POST["email"] . "'";
         }
@@ -114,15 +114,18 @@
           $updatestring = substr($updatestring, 2, strlen($updatestring)-2);
 
           $sql = "UPDATE customers SET " . $updatestring;
-          $sql .= " WHERE CustUID = '" . $customer->uid . "'";
+          $sql .= " WHERE CustUID = '" . $Customer->uid . "'";
           $result = $database->query($sql);
         }
 
+        // See if there's any bookings with the same package ID for that customer (Joshua)
+        $getBookings = $database->prepare("SELECT PackageId FROM bookings WHERE PackageId = ? AND CustomerId = ? ORDER BY PackageId DESC LIMIT 1");
+        $getBookings->execute([$_SESSION['id'], $Customer->getInfo('CustomerId')]);
+        $bookingCount = $getBookings->rowCount();
 
         # Now add a new booking record into the bookings table
         if ($result) {
-
-          $bookingDate = date('Y-m-d');
+          $bookingDate = date('Y-m-d H:i:s');
 
           # Randomly generate a string of 7 digits/letters for the booking number.  Use
           # the uniqid() function, convert the letters to upper case, and truncate to the
@@ -136,7 +139,7 @@
           $values = "'" . $bookingDate . "', ";
           $values .= "'" . $bookingNumber . "', ";
           $values .= "'" . $_SESSION["quantity"] . "', ";
-          $values .= "'" . $customer->getInfo("CustomerId") . "', ";
+          $values .= "'" . $Customer->getInfo("CustomerId") . "', ";
           $values .= "'L', ";
           $values .= "'" . $_SESSION["id"] . "'";
 
@@ -145,19 +148,23 @@
           $sql .= " VALUES (" . $values . ")";
 
           $result = $database->query($sql);
+
+          // Add row to the bookingdetails table as well (Joshua)
+          //$database->query("INSERT INTO bookingdetails(TripStart, TripEnd, Description, Destination, BasePrice)
+                                          //VALUES('$tripStart', '$tripEnd', 'Vacation', '', '')");
         }
 
         # If the database was updated successfully, give a success message and provide a link
         # for the user to return to the main Travel Experts page
-        if ($result) {
-          echo "<h1>Your vacation was booked successfully!</h1><br><br>";
-          echo "Your booking number is " .  $bookingNumber . "<br><br>";
+        if ($result && $bookingCount == 0) { // Make sure the customer doesn't book the same package twice (Joshua)
+          echo "<h1>Your vacation was booked successfully!</h1><br>";
+          echo "<h4>Your booking number is: <b>" .  $bookingNumber . "</b></h4><br />";
           echo "<a href='../../index.php'>Click to return to Travel Experts main page</a>";
         }
         # If there was an error updating the database, give an error message and provide
         # a link for the user to return to the orders page
         else {
-          echo "<h1 class='error'>Error booking vacation</h1><br><br>";
+          echo "<h1 class='error'>Error booking vacation</h1><br>";
           echo "<a href='index.php#bottomOfPage'>Click to return to orders page</a>";
         }
 

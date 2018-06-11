@@ -25,7 +25,7 @@
                 <p>
                     <?php
                         if(isset($_COOKIE['uid']))
-                            echo '<a href="#" class="btn btn-success"><i class="fa fa-user-circle"></i>&nbsp; My Account</a> &nbsp; <a href="#" class="btn btn-secondary"><i class="fa fa-sign-out"></i>&nbsp; Logout</a>';
+                            echo '<a href="packages" class="btn btn-success"><i class="fa fa-plane"></i>&nbsp; Start Browsing Packages</a>';
 
                         else
                             echo '<a href="#" class="btn btn-primary my-2"><i class="fa fa-info-circle"></i>&nbsp; Find Out More</a> &nbsp; <a href="register" class="btn btn-success my-2"><i class="fa fa-user-plus"></i>&nbsp; Create a Free Account</a>';
@@ -39,57 +39,52 @@
         ?>
         <section>
             <div class="container">
-                <h4>Recent Bookings</h4>
+                <?php
+                $Customer = new Customer($_COOKIE['uid']);
+
+                /*
+                    Ideally you would get this information from the bookings, bookingdetails and triptypes
+                    tables, but we did not have enough time to add rows to those tables when the customer
+                    placed an order for a package
+                */
+                $getBookings = $database->prepare("SELECT PkgName, PkgStartDate, PkgEndDate, PkgDesc, PkgBasePrice, BookingDate, BookingNo, TravelerCount
+                                                  FROM packages, bookings
+                                                  WHERE CustomerId = ?
+                                                  AND bookings.PackageId = packages.packageId
+                                                  ORDER BY PkgStartDate");
+                $getBookings->execute([$Customer->getInfo('CustomerId')]);
+
+                if($getBookings->rowCount() == 0)
+                    echo '<h4 style="margin-bottom:25px;text-align:center;">No bookings yet.</h4>';
+
+                else {
+                ?>
+                <h4>Recent Bookings (<a href="#">View All</a>)</h4>
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Booking #</th>
                             <th scope="col">Booking Date</th>
-                            <th scope="col">Destination</th>
-                            <th scope="col">Trip Type</th>
-                            <th scope="col">Price</th>
+                            <th scope="col">Package Name</th>
+                            <th scope="col">Base Price</th>
+                            <th scope="col">Travelers</th>
+                            <th scope="col">Total Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">WDR898</th>
-                            <td>June 8th, 2018</td>
-                            <td>Vancouver</td>
-                            <td>Business</td>
-                            <td><span style="color:green;font-weight:bold;">$450.00</span></td>
-                        </tr>
-
-                        <tr>
-                            <th scope="row">1ZVSMY</th>
-                            <td>June 8th, 2018</td>
-                            <td>Vancouver</td>
-                            <td>Business</td>
-                            <td><span style="color:green;font-weight:bold;">$450.00</span></td>
-                        </tr>
-
-                        <tr>
-                            <th scope="row">ZMRIIW</th>
-                            <td>June 8th, 2018</td>
-                            <td>Vancouver</td>
-                            <td>Business</td>
-                            <td><span style="color:green;font-weight:bold;">$450.00</span></td>
-                        </tr>
-
-                        <tr>
-                            <th scope="row">LC6GJ8</th>
-                            <td>June 8th, 2018</td>
-                            <td>Vancouver</td>
-                            <td>Business</td>
-                            <td><span style="color:green;font-weight:bold;">$450.00</span></td>
-                        </tr>
-
-                        <tr>
-                            <th scope="row">1EZD4S</th>
-                            <td>June 8th, 2018</td>
-                            <td>Vancouver</td>
-                            <td>Business</td>
-                            <td><span style="color:green;font-weight:bold;">$450.00</span></td>
-                        </tr>
+                        <?php
+                            foreach($getBookings->fetchAll() as $booking) {
+                                echo '<tr>
+                                    <th scope="row">' . $booking['BookingNo'] . '</th>
+                                    <td>' . date('l, F n, Y \a\t h:iA', strtotime($booking['BookingDate'])) . '</td>
+                                    <td>' . $booking['PkgName'] . '</td>
+                                    <td><b>$' . number_format($booking['PkgBasePrice'], 2, '.', '') . '</b></td>
+                                    <td>' . $booking['TravelerCount'] . '</td>
+                                    <td><span style="color:green;font-weight:bold;">$' . number_format($booking['PkgBasePrice'] * $booking['TravelerCount'], 2, '.', '') . '</span></td>
+                                </tr>';
+                            }
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>

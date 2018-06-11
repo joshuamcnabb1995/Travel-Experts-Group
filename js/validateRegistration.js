@@ -31,7 +31,7 @@ $(document).ready(function() {
     $('#businessphone').mask('1 (000) 000-0000', {'translation': {0: {pattern: /[0-9]/}}});
 
     // Custom email regular expression
-    /*$.validator.methods.email = function(value, element) {
+    $.validator.methods.email = function(value, element) {
         return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
     }
 
@@ -50,14 +50,12 @@ $(document).ready(function() {
             },
             postalcode: { postalCodeCA: true }, // Use custom validator method for postal code
             businessphone: {
-                minlength: 11,
-                maxlength: 11,
-                digits: true
+                minlength: 16,
+                maxlength: 16
             },
             homephone: {
-                minlength: 11,
-                maxlength: 11,
-                digits: true
+                minlength: 16,
+                maxlength: 16,
             },
             email: {
                 required: true,
@@ -67,17 +65,14 @@ $(document).ready(function() {
         messages: {
             postalcode: { postalcode: "Postal code should be in the format A1A 1A1" },
             businessphone: {
-                minlength: "Business phone number should be 10 digits",
-                maxlength: "Business phone number should be 10 digits",
-                digits: "Business phone number should contain only digits"
-            },
+                minlength: "Business phone number should be 16 characters long.",
+                maxlength: "Business phone number should be 16 characters long."            },
             homephone: {
-                minlength: "Home phone number should be 10 digits",
-                maxlength: "Home phone number should be 10 digits",
-                digits: "Home phone number should contain only digits"
+                minlength: "Home phone number should be 16 characters long.",
+                maxlength: "Home phone number should be 16 characters long."
             },
             email: { email: "Please enter a valid email address" }
         }
-    });*/
+    });
     // Jquery-validate (Corinne)
 });
